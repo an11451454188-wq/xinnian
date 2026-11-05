@@ -354,7 +354,7 @@ div.innerText = texts[idx % texts.length];
    heartBoxes.forEach((box, idx) => {
      setTimeout(() => box.classList.add("show"), idx * popInterval);
    });
-   // 全部爱心弹窗弹完之后，停留【2000毫秒 = 2秒】再消失
+   // 全部爱心弹窗弹完之后，停留【1500毫秒 = 1.5秒】再消失
    const allHeartPopFinishTime = (heartBoxes.length - 1) * popInterval;
    setTimeout(() => {
      setTimeout(() => {
@@ -363,7 +363,7 @@ div.innerText = texts[idx % texts.length];
          heartBoxes.forEach(box => box.remove());
          startFullScreen();
        }, 400);
-     }, 2000); // ←这里改成停留2秒
+     }, 1500); // ←这里改成停留1.5秒
    }, allHeartPopFinishTime);
  }
  function startFullScreen() {
