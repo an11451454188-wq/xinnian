@@ -1,345 +1,340 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>新年快乐</title>
-<style>
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-}
-body{
-  min-height: 100vh;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 20% 20%, #ffd1dc 0%, transparent 26%),
-    radial-gradient(circle at 80% 10%, #ffb6d9 0%, transparent 28%),
-    radial-gradient(circle at 50% 80%, #ff9ec7 0%, transparent 32%),
-    linear-gradient(135deg, #ffe4f1 0%, #ffc2df 45%, #ffa5d2 100%);
-}
-#heartsBg{
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-.bg-heart{
-  position: absolute;
-  bottom: -40px;
-  color: #ff6fa2;
-  opacity: 0.35;
-  animation: floatUp linear infinite;
-  user-select: none;
-}
-@keyframes floatUp{
-  0%{
-    transform: translateY(0) rotate(0deg) scale(0.8);
-    opacity: 0;
-  }
-  10%{
-    opacity: 0.4;
-  }
-  90%{
-    opacity: 0.35;
-  }
-  100%{
-    transform: translateY(-110vh) rotate(360deg) scale(1.1);
-    opacity: 0;
-  }
-}
-#inputPanel{
-  position: fixed;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  transition: all 0.8s ease‑in‑out;
-}
-#inputPanel.hide{
-  transform: translateY(120vh);
-  opacity: 0;
-  pointer-events: none;
-}
-.title1-wrap{
-  background: rgba(255, 255, 255, 0.18);
-  padding: 14px 36px;
-  border-radius: 24px;
-  box-shadow:
-    0 8px 32px rgba(255, 105, 180, 0.35),
-    inset 0 0 20px rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  margin-bottom:16px;
-}
-.title1{
-  font-size: 28px;
-  color: #c41e5c;
-  letter-spacing: 6px;
-  font-weight: 700;
-  text-shadow:
-    0 0 8px rgba(255,255,255,0.9),
-    0 0 18px rgba(255, 116, 168, 0.8);
-}
-.title2{
-  font-size: 22px;
-  color: #c2185b;
-  margin-bottom: 12px;
-  letter-spacing: 2px;
-  font-weight: 500;
-}
-.title3{
-  font-size: 18px;
-  color: #b04070;
-  margin-bottom: 36px;
-  letter-spacing: 1px;
-  font-weight: 400;
-}
-#nameInput{
-  width: 280px;
-  height: 46px;
-  border-radius: 24px;
-  border: 2px solid #ff9ec7;
-  outline: none;
-  padding: 0 20px;
-  font-size: 16px;
-  font-weight: 400;
-  background: #fff8fc;
-  color: #773355;
-  box-shadow: 0 0 14px #ff9ec788;
-}
-#confirmBtn{
-  margin-top: 20px;
-  width: 140px;
-  height: 44px;
-  border-radius: 22px;
-  border: none;
-  font-size: 17px;
-  font-weight: 500;
-  background: linear-gradient(135deg, #ff75a8, #ff4d8d);
-  color: #fff;
-  cursor: pointer;
-  transition: 0.2s;
-  box-shadow: 0 8px 20px #ff4d8d66;
-}
-#confirmBtn:active{
-  transform: scale(0.95);
-}
-/* 爱心阶段弹窗：保持原来140×75，从屏幕底部往上飞入 */
-.win.heart-item{
-  position: absolute;
-  width: 140px;
-  height: 75px;
-  border-radius: 12px;
-  box-shadow: 0 0 14px #ffffffaa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 8px;
-  font-size: 13px;
-  font-weight: 400;
-  color: #444444;
-  opacity: 0;
-  transform: translateY(120vh) scale(0.5);
-  transition: all 0.55s ease;
-  line-height: 1.35;
-  z-index: 5;
-}
-.win.heart-item.show {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-.win.heart-item.hide {
-  opacity: 0;
-  transform: scale(0.6);
-  pointer-events: none;
-}
-/*⭐后面满屏弹窗改小：110×60，字号缩小，只由小变大，不从底部上移*/
-.win.full-item{
-  position: absolute;
-  width: 110px;
-  height: 60px;
-  border-radius: 10px;
-  box-shadow: 0 0 14px #ffffffaa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding:6px;
-  font-size:11px;
-  font-weight: 400;
-  color: #444444;
-  opacity: 0;
-  transform: scale(0.5);
-  transition: all 0.4s ease;
-  line-height: 1.35;
-  z-index: 5;
-}
-.win.full-item.show{
-  opacity:1;
-  transform:scale(1);
-}
-
-/* =========确认弹窗========= */
-#confirmModal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.25);
-  z-index:30;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity 1s ease;
-  padding:20px;
-}
-#confirmModal.appear{
-  opacity:1;
-  pointer-events:auto;
-}
-.modal-box{
-  width:min(340px,90vw);
-  background:rgba(255,255,255,0.22);
-  backdrop-filter: blur(16px) saturate(130%);
-  -webkit-backdrop-filter: blur(16px) saturate(130%);
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,0.35);
-  padding:28px 24px;
-  box-shadow:0 8px 30px rgba(255,80,140,0.25);
-}
-.modal-text{
-  text-align:center;
-  font-size:17px;
-  color:#882b55;
-  margin-bottom:26px;
-  line-height:1.6;
-}
-.btn-row{
-  display:flex;
-  gap:16px;
-  justify-content:center;
-}
-.modal-btn{
-  padding:10px 26px;
-  border-radius:22px;
-  border:none;
-  font-size:16px;
-  cursor:pointer;
-  transition:all 0.4s ease;
-}
-#btnNo{
-  background:#e8e8e8;
-  color:#555;
-}
-#btnNo.hideBtn{
-  opacity:0;
-  pointer-events:none;
-  transform:scale(0.7);
-}
-#btnYes{
-  background:linear-gradient(135deg,#ff75a8,#ff4d8d);
-  color:#fff;
-  box-shadow:0 4px 14px #ff4d8d44;
-}
-
-/* =========打字信件毛玻璃容器 圆角R角========= */
-#letterBoxWrap{
-  position:fixed;
-  inset:0;
-  z-index:40;
-  background:rgba(0,0,0,0.20);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity 1s ease;
-}
-#letterBoxWrap.showLetter{
-  opacity:1;
-  pointer-events:auto;
-}
-.letter-glass{
-  width:min(520px,92vw);
-  min-height:340px;
-  max-height:75vh;
-  overflow-y:auto;
-  background:rgba(255,255,255,0.24);
-  backdrop-filter: blur(20px) saturate(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,0.38);
-  padding:26px 22px;
-  box-shadow:0 10px 40px rgba(255,90,150,0.22);
-}
-.type-area{
-  font-size:15px;
-  line-height:2.1;
-  color:#602440;
-  white-space:pre-wrap;
-  position:relative;
-}
-/*闪烁光标竖杠*/
-.cursor{
-  display:inline-block;
-  width:2px;
-  height:1.35em;
-  background:#c2185b;
-  margin-left:2px;
-  animation: blink 0.6s infinite;
-  vertical-align:text-bottom;
-}
-@keyframes blink{
-  0%,49%{opacity:1;}
-  50%,100%{opacity:0;}
-}
-</style>
-</head>
-<body>
-<div id="heartsBg"></div>
-<div id="inputPanel">
-  <div class="title1-wrap">
-    <div class="title1">祝袁语汐新年快乐</div>
-  </div>
-  <div class="title2">这是专属于你的网站</div>
-  <div class="title3">输入你的名字 查收我对你的心意</div>
-  <input id="nameInput" placeholder="只有输入你的名字可以呦">
-  <button id="confirmBtn">确认</button>
-</div>
-
-<!--确认弹窗-->
-<div id="confirmModal">
-  <div class="modal-box">
-    <div class="modal-text">张涛给你写了封信<br>要打开来看看吗</div>
-    <div class="btn-row">
-      <button class="modal-btn" id="btnNo">选右边的</button>
-      <button class="modal-btn" id="btnYes">好呀</button>
-    </div>
-  </div>
-</div>
-
-<!--打字信件毛玻璃-->
-<div id="letterBoxWrap">
-  <div class="letter-glass">
-    <div class="type-area" id="typeContent"></div>
-  </div>
-</div>
-
-<script>
-// 生成大量背景小爱心
-const heartsBg = document.getElementById("heartsBg");
-const totalHearts = 60
-function createBgHeart(){
-const heart = document.createElement("div");
+ <html lang="zh-CN">
+ <head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>新年快乐</title>
+ <style>
+ *{
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+ }
+ body{
+   min-height: 100vh;
+   overflow: hidden;
+   background:
+     radial-gradient(circle at 20% 20%, #ffd1dc 0%, transparent 26%),
+     radial-gradient(circle at 80% 10%, #ffb6d9 0%, transparent 28%),
+     radial-gradient(circle at 50% 80%, #ff9ec7 0%, transparent 32%),
+     linear-gradient(135deg, #ffe4f1 0%, #ffc2df 45%, #ffa5d2 100%);
+ }
+ #heartsBg{
+   position: fixed;
+   inset: 0;
+   z-index: 0;
+   pointer-events: none;
+   overflow: hidden;
+ }
+ .bg-heart{
+   position: absolute;
+   bottom: -40px;
+   color: #ff6fa2;
+   opacity: 0.35;
+   animation: floatUp linear infinite;
+   user-select: none;
+ }
+ @keyframes floatUp{
+   0%{
+     transform: translateY(0) rotate(0deg) scale(0.8);
+     opacity: 0;
+   }
+   10%{
+     opacity: 0.4;
+   }
+   90%{
+     opacity: 0.35;
+   }
+   100%{
+     transform: translateY(-110vh) rotate(360deg) scale(1.1);
+     opacity: 0;
+   }
+ }
+ #inputPanel{
+   position: fixed;
+   inset: 0;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   z-index: 10;
+   transition: all 0.8s ease‑in‑out;
+ }
+ #inputPanel.hide{
+   transform: translateY(120vh);
+   opacity: 0;
+   pointer-events: none;
+ }
+ .title1-wrap{
+   background: rgba(255, 255, 255, 0.18);
+   padding: 14px 36px;
+   border-radius: 24px;
+   box-shadow:
+     0 8px 32px rgba(255, 105, 180, 0.35),
+     inset 0 0 20px rgba(255, 255, 255, 0.4);
+   backdrop-filter: blur(18px) saturate(140%);
+   -webkit-backdrop-filter: blur(18px) saturate(140%);
+   border: 1px solid rgba(255, 255, 255, 0.35);
+   margin-bottom:16px;
+ }
+ .title1{
+   font-size: 28px;
+   color: #c41e5c;
+   letter-spacing: 6px;
+   font-weight: 700;
+   text-shadow:
+     0 0 8px rgba(255,255,255,0.9),
+     0 0 18px rgba(255, 116, 168, 0.8);
+ }
+ .title2{
+   font-size: 22px;
+   color: #c2185b;
+   margin-bottom: 12px;
+   letter-spacing: 2px;
+   font-weight: 500;
+ }
+ .title3{
+   font-size: 18px;
+   color: #b04070;
+   margin-bottom: 36px;
+   letter-spacing: 1px;
+   font-weight: 400;
+ }
+ #nameInput{
+   width: 280px;
+   height: 46px;
+   border-radius: 24px;
+   border: 2px solid #ff9ec7;
+   outline: none;
+   padding: 0 20px;
+   font-size: 16px;
+   font-weight: 400;
+   background: #fff8fc;
+   color: #773355;
+   box-shadow: 0 0 14px #ff9ec788;
+ }
+ #confirmBtn{
+   margin-top: 20px;
+   width: 140px;
+   height: 44px;
+   border-radius: 22px;
+   border: none;
+   font-size: 17px;
+   font-weight: 500;
+   background: linear-gradient(135deg, #ff75a8, #ff4d8d);
+   color: #fff;
+   cursor: pointer;
+   transition: 0.2s;
+   box-shadow: 0 8px 20px #ff4d8d66;
+ }
+ #confirmBtn:active{
+   transform: scale(0.95);
+ }
+ /* 爱心阶段弹窗：保持原来140×75，从屏幕底部往上飞入 */
+ .win.heart-item{
+   position: absolute;
+   width: 140px;
+   height: 75px;
+   border-radius: 12px;
+   box-shadow: 0 0 14px #ffffffaa;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   padding: 8px;
+   font-size: 13px;
+   font-weight: 400;
+   color: #444444;
+   opacity: 0;
+   transform: translateY(120vh) scale(0.5);
+   transition: all 0.55s ease;
+   line-height: 1.35;
+   z-index: 5;
+ }
+ .win.heart-item.show {
+   opacity: 1;
+   transform: translateY(0) scale(1);
+ }
+ .win.heart-item.hide {
+   opacity: 0;
+   transform: scale(0.6);
+   pointer-events: none;
+ }
+ /*⭐后面满屏弹窗改小：110×60，字号缩小，只由小变大，不从底部上移*/
+ .win.full-item{
+   position: absolute;
+   width: 110px;
+   height: 60px;
+   border-radius: 10px;
+   box-shadow: 0 0 14px #ffffffaa;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   padding:6px;
+   font-size:11px;
+   font-weight: 400;
+   color: #444444;
+   opacity: 0;
+   transform: scale(0.5);
+   transition: all 0.4s ease;
+   line-height: 1.35;
+   z-index: 5;
+ }
+ .win.full-item.show{
+   opacity:1;
+   transform:scale(1);
+ }
+ /* =========确认弹窗========= */
+ #confirmModal{
+   position:fixed;
+   inset:0;
+   background:rgba(0,0,0,0.25);
+   z-index:30;
+   display:flex;
+   align-items:center;
+   justify-content:center;
+   opacity:0;
+   pointer-events:none;
+   transition:opacity 1s ease;
+   padding:20px;
+ }
+ #confirmModal.appear{
+   opacity:1;
+   pointer-events:auto;
+ }
+ .modal-box{
+   width:min(340px,90vw);
+   background:rgba(255,255,255,0.22);
+   backdrop-filter: blur(16px) saturate(130%);
+   -webkit-backdrop-filter: blur(16px) saturate(130%);
+   border-radius:16px;
+   border:1px solid rgba(255,255,255,0.35);
+   padding:28px 24px;
+   box-shadow:0 8px 30px rgba(255,80,140,0.25);
+ }
+ .modal-text{
+   text-align:center;
+   font-size:17px;
+   color:#882b55;
+   margin-bottom:26px;
+   line-height:1.6;
+ }
+ .btn-row{
+   display:flex;
+   gap:16px;
+   justify-content:center;
+ }
+ .modal-btn{
+   padding:10px 26px;
+   border-radius:22px;
+   border:none;
+   font-size:16px;
+   cursor:pointer;
+   transition:all 0.4s ease;
+ }
+ #btnNo{
+   background:#e8e8e8;
+   color:#555;
+ }
+ #btnNo.hideBtn{
+   opacity:0;
+   pointer-events:none;
+   transform:scale(0.7);
+ }
+ #btnYes{
+   background:linear-gradient(135deg,#ff75a8,#ff4d8d);
+   color:#fff;
+   box-shadow:0 4px 14px #ff4d8d44;
+ }
+ /* =========打字信件毛玻璃容器 圆角R角========= */
+ #letterBoxWrap{
+   position:fixed;
+   inset:0;
+   z-index:40;
+   background:rgba(0,0,0,0.20);
+   display:flex;
+   align-items:center;
+   justify-content:center;
+   padding:20px;
+   opacity:0;
+   pointer-events:none;
+   transition:opacity 1s ease;
+ }
+ #letterBoxWrap.showLetter{
+   opacity:1;
+   pointer-events:auto;
+ }
+ .letter-glass{
+   width:min(520px,92vw);
+   min-height:340px;
+   max-height:75vh;
+   overflow-y:auto;
+   background:rgba(255,255,255,0.24);
+   backdrop-filter: blur(20px) saturate(140%);
+   -webkit-backdrop-filter: blur(20px) saturate(140%);
+   border-radius:18px;
+   border:1px solid rgba(255,255,255,0.38);
+   padding:26px 22px;
+   box-shadow:0 10px 40px rgba(255,90,150,0.22);
+ }
+ .type-area{
+   font-size:15px;
+   line-height:2.1;
+   color:#602440;
+   white-space:pre-wrap;
+   position:relative;
+ }
+ /*闪烁光标竖杠*/
+ .cursor{
+   display:inline-block;
+   width:2px;
+   height:1.35em;
+   background:#c2185b;
+   margin-left:2px;
+   animation: blink 0.6s infinite;
+   vertical-align:text-bottom;
+ }
+ @keyframes blink{
+   0%,49%{opacity:1;}
+   50%,100%{opacity:0;}
+ }
+ </style>
+ </head>
+ <body>
+ <div id="heartsBg"></div>
+ <div id="inputPanel">
+   <div class="title1-wrap">
+     <div class="title1">祝袁语汐新年快乐</div>
+   </div>
+   <div class="title2">这是专属于你的网站</div>
+   <div class="title3">输入你的名字 查收我对你的心意</div>
+   <input id="nameInput" placeholder="只有输入你的名字可以呦">
+   <button id="confirmBtn">确认</button>
+ </div>
+ <!--确认弹窗-->
+ <div id="confirmModal">
+   <div class="modal-box">
+     <div class="modal-text">张涛给你写了封信<br>要打开来看看吗</div>
+     <div class="btn-row">
+       <button class="modal-btn" id="btnNo">选右边的</button>
+  <button class="modal-btn" id="btnYes">好呀</button>
+     </div>
+   </div>
+ </div>
+ <!--打字信件毛玻璃-->
+ <div id="letterBoxWrap">
+   <div class="letter-glass">
+     <div class="type-area" id="typeContent"></div>
+   </div>
+ </div>
+ <script>
+ // 生成大量背景小爱心
+ const heartsBg = document.getElementById("heartsBg");
+ const totalHearts = 60;
+ function createBgHeart(){
+   const heart = document.createElement("div");
    heart.className = "bg-heart";
    heart.innerHTML = "♥";
    heart.style.left = Math.random() * 100 + "vw";
@@ -351,7 +346,7 @@ const heart = document.createElement("div");
  for(let i = 0; i < totalHearts; i++){
    createBgHeart();
  }
- // 52条，最后一条：张涛爱袁语汐❤️
+ // 52条，最后一条：潘城爱袁语汐❤️
  const texts = [
    "愿你岁岁平安✨",
    "万事皆能如愿🎆",
@@ -404,7 +399,7 @@ const heart = document.createElement("div");
    "日子满是甜意🍬",
    "奔赴属于光亮🌟",
    "爱意岁岁绵长💞",
-   "张涛爱袁语汐❤️"
+   "潘城爱袁语汐❤️"
  ];
  const colorList = [
    "#ffe6ef",
