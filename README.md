@@ -1,2 +1,395 @@
-# xinnian
-新年祝福
+<!DOCTYPE html>
+ <html lang="zh-CN">
+ <head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>新年快乐</title>
+ <style>
+ *{
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+ }
+ body{
+   min-height: 100vh;
+   overflow: hidden;
+   background:
+     radial-gradient(circle at 20% 20%, #ffd1dc 0%, transparent 26%),
+     radial-gradient(circle at 80% 10%, #ffb6d9 0%, transparent 28%),
+     radial-gradient(circle at 50% 80%, #ff9ec7 0%, transparent 32%),
+     linear-gradient(135deg, #ffe4f1 0%, #ffc2df 45%, #ffa5d2 100%);
+ }
+ #heartsBg{
+   position: fixed;
+   inset: 0;
+   z-index: 0;
+   pointer-events: none;
+   overflow: hidden;
+ }
+ .bg-heart{
+   position: absolute;
+   bottom: -40px;
+   color: #ff6fa2;
+   opacity: 0.35;
+   animation: floatUp linear infinite;
+   user-select: none;
+ }
+ @keyframes floatUp{
+   0%{
+     transform: translateY(0) rotate(0deg) scale(0.8);
+     opacity: 0;
+   }
+   10%{
+     opacity: 0.4;
+   }
+   90%{
+     opacity: 0.35;
+   }
+   100%{
+     transform: translateY(-110vh) rotate(360deg) scale(1.1);
+     opacity: 0;
+   }
+ }
+ #inputPanel{
+   position: fixed;
+   inset: 0;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   z-index: 10;
+   transition: all 0.8s ease‑in‑out;
+ }
+ #inputPanel.hide{
+   transform: translateY(120vh);
+   opacity: 0;
+   pointer-events: none;
+ }
+ .title1-wrap{
+   background: rgba(255, 255, 255, 0.18);
+   padding: 14px 36px;
+   border-radius: 24px;
+   box-shadow:
+     0 8px 32px rgba(255, 105, 180, 0.35),
+     inset 0 0 20px rgba(255, 255, 255, 0.4);
+   backdrop-filter: blur(18px) saturate(140%);
+   -webkit-backdrop-filter: blur(18px) saturate(140%);
+   border: 1px solid rgba(255, 255, 255, 0.35);
+   margin-bottom:16px;
+ }
+ .title1{
+   font-size: 28px;
+   color: #c41e5c;
+   letter-spacing: 6px;
+   font-weight: 700;
+   text-shadow:
+     0 0 8px rgba(255,255,255,0.9),
+     0 0 18px rgba(255, 116, 168, 0.8);
+ }
+ .title2{
+   font-size: 22px;
+   color: #c2185b;
+   margin-bottom: 12px;
+   letter-spacing: 2px;
+   font-weight: 500;
+ }
+ .title3{
+   font-size: 18px;
+   color: #b04070;
+   margin-bottom: 36px;
+   letter-spacing: 1px;
+   font-weight: 400;
+ }
+ #nameInput{
+   width: 280px;
+   height: 46px;
+   border-radius: 24px;
+   border: 2px solid #ff9ec7;
+   outline: none;
+   padding: 0 20px;
+   font-size: 16px;
+   font-weight: 400;
+   background: #fff8fc;
+   color: #773355;
+   box-shadow: 0 0 14px #ff9ec788;
+ }
+ #confirmBtn{
+   margin-top: 20px;
+   width: 140px;
+   height: 44px;
+   border-radius: 22px;
+   border: none;
+   font-size: 17px;
+   font-weight: 500;
+   background: linear-gradient(135deg, #ff75a8, #ff4d8d);
+   color: #fff;
+   cursor: pointer;
+   transition: 0.2s;
+   box-shadow: 0 8px 20px #ff4d8d66;
+ }
+ #confirmBtn:active{
+   transform: scale(0.95);
+ }
+ /* 爱心阶段弹窗：保持原来140×75，从屏幕底部往上飞入 */
+ .win.heart-item{
+   position: absolute;
+   width: 140px;
+   height: 75px;
+   border-radius: 12px;
+   box-shadow: 0 0 14px #ffffffaa;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   padding: 8px;
+   font-size: 13px;
+   font-weight: 400;
+   color: #444444;
+   opacity: 0;
+   transform: translateY(120vh) scale(0.5);
+   transition: all 0.55s ease;
+   line-height: 1.35;
+   z-index: 5;
+ }
+ .win.heart-item.show {
+   opacity: 1;
+   transform: translateY(0) scale(1);
+ }
+ .win.heart-item.hide {
+   opacity: 0;
+   transform: scale(0.6);
+   pointer-events: none;
+ }
+ /*⭐后面满屏弹窗改小：110×60，字号缩小，只由小变大，不从底部上移*/
+ .win.full-item{
+   position: absolute;
+   width: 110px;
+   height: 60px;
+   border-radius: 10px;
+   box-shadow: 0 0 14px #ffffffaa;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   padding:6px;
+   font-size:11px;
+   font-weight: 400;
+   color: #444444;
+   opacity: 0;
+   transform: scale(0.5);
+   transition: all 0.4s ease;
+   line-height: 1.35;
+   z-index: 5;
+ }
+ .win.full-item.show{
+   opacity:1;
+   transform:scale(1);
+ }
+ </style>
+ </head>
+ <body>
+ <div id="heartsBg"></div>
+ <div id="inputPanel">
+   <div class="title1-wrap">
+     <div class="title1">祝袁语汐新年快乐</div>
+   </div>
+   <div class="title2">这是专属于你的网站</div>
+   <div class="title3">输入你的名字 查收我对你的心意</div>
+   <input id="nameInput" placeholder="只有输入你的名字可以呦">
+   <button id="confirmBtn">确认</button>
+ </div>
+ <script>
+ // 生成大量背景小爱心
+ const heartsBg = document.getElementById("heartsBg");
+ const totalHearts = 60;
+ function createBgHeart(){
+   const heart = document.createElement("div");
+   heart.className = "bg-heart";
+   heart.innerHTML = "♥";
+   heart.style.left = Math.random() * 100 + "vw";
+   heart.style.fontSize = (Math.random() * 18 + 14) + "px";
+   heart.style.animationDuration = (Math.random() * 8 + 8) + "s";
+   heart.style.animationDelay = Math.random() * 10 + "s";
+   heartsBg.appendChild(heart);
+ }
+ for(let i = 0; i < totalHearts; i++){
+   createBgHeart();
+ }
+ // 52条，最后一条：潘城爱袁语汐❤️
+ const texts = [
+   "愿你岁岁平安✨",
+   "万事皆能如愿🎆",
+   "日子温柔闪光💖",
+   "前路万事可期🌟",
+   "平安喜乐常伴🎇",
+   "烦恼统统远离🍀",
+   "年年胜意欢愉💫",
+   "提笔合笔如愿📖",
+   "三餐四季温暖🌷",
+   "美好不期而遇🧧",
+   "奔赴心中热爱🌠",
+   "永远闪闪发光🥰",
+   "眼里盛满星光🌞",
+   "脚下皆是坦途🛤️",
+   "所得皆是欢喜🍃",
+   "一路繁花相伴🌸",
+   "心有繁花盛放🌿",
+   "平安无疾如常🕊️",
+   "岁月毫无蹉跎🎐",
+   "朝朝暮暮幸福💌",
+   "慢慢慢慢发光✨",
+   "所愿皆能成真🚩",
+   "岁岁常得欢愉🎊",
+   "长安宁多喜乐🪐",
+   "生活明朗可爱☁️",
+   "快乐时刻满格🥳",
+   "心之所向皆往🌌",
+   "良辰万事可期🎁",
+   "自在无忧从容🎋",
+   "星光奔赴于你🌙",
+   "一路向阳温暖☀️",
+   "岁岁惦念如初💞",
+   "且喜且乐长久🍵",
+   "山海皆可奔赴⛰️",
+   "人间日子滚烫🔥",
+   "被温柔包围着💖",
+   "好运接踵而来🍂",
+   "浪漫永不落幕🌷",
+   "欢喜藏于日常🎀",
+   "前路清风相伴🍃",
+   "所想皆有回响🔔",
+   "岁岁与美好相逢🌙",
+   "温柔常驻心底💓",
+   "好运一路同行🛤️",
+   "保持满心欢喜🥰",
+   "万事顺意无忧🎆",
+   "邂逅所有美好✨",
+   "岁岁共享浪漫💌",
+   "日子满是甜意🍬",
+   "奔赴属于光亮🌟",
+   "爱意岁岁绵长💞",
+   "潘城爱袁语汐❤️"
+ ];
+ const colorList = [
+   "#ffe6ef",
+   "#e6f7ff",
+   "#fff7d9",
+   "#e9ffe9",
+   "#f3e8ff",
+   "#ffeede"
+ ];
+ const winW = window.innerWidth;
+ const winH = window.innerHeight;
+ const ww = 140;
+ const wh = 75;
+ // 爱心点位
+ function getHeartPoints(num) {
+   const points = [];
+   const scale = Math.min(winW, winH) * 0.38;
+   const cx = winW / 2;
+   const cy = winH / 2 + 50;
+   for (let i = 0; i < num; i++) {
+     const t = (i / num) * Math.PI * 2;
+     const x = 16 * Math.pow(Math.sin(t), 3);
+     const y = -(
+       13 * Math.cos(t) -
+       5 * Math.cos(2 * t) -
+       2 * Math.cos(3 * t) -
+       Math.cos(4 * t)
+     );
+     points.push({
+       left: cx + (x * scale) / 16 - ww / 2,
+       top: cy + (y * scale) / 16 - wh / 2
+     });
+   }
+   return points;
+ }
+ // 随机全屏点位
+ function getRandomPoints(num) {
+   const points = [];
+   for (let i = 0; i < num; i++) {
+     points.push({
+       left: Math.random() * (winW - 110),
+       top: Math.random() * (winH - 60)
+     });
+   }
+   return points;
+ }
+ // 创建爱心阶段弹窗
+ function createHeartPopups(points) {
+   const boxes = [];
+   points.forEach((pos, idx) => {
+     const div = document.createElement("div");
+     div.className = "win heart-item";
+div.innerText = texts[idx % texts.length];
+     div.style.left = pos.left + "px";
+     div.style.top = pos.top + "px";
+     div.style.background = colorList[idx % colorList.length];
+     document.body.appendChild(div);
+     boxes.push(div);
+   });
+   return boxes;
+ }
+ // 创建全屏弹窗
+ function createFullPopups(points) {
+   const boxes = [];
+   points.forEach((pos, idx) => {
+     const div = document.createElement("div");
+     div.className = "win full-item";
+     div.innerText = texts[idx % texts.length];
+     div.style.left = pos.left + "px";
+     div.style.top = pos.top + "px";
+     div.style.background = colorList[idx % colorList.length];
+     document.body.appendChild(div);
+     boxes.push(div);
+   });
+   return boxes;
+ }
+ // 启动动画
+ function startAnimation(){
+   const heartPoints = getHeartPoints(texts.length);
+   const heartBoxes = createHeartPopups(heartPoints);
+   const popInterval = 90;
+   heartBoxes.forEach((box, idx) => {
+     setTimeout(() => box.classList.add("show"), idx * popInterval);
+   });
+   // 全部爱心弹窗弹完之后，停留【1000毫秒 = 1秒】再消失
+   const allHeartPopFinishTime = (heartBoxes.length - 1) * popInterval;
+   setTimeout(() => {
+     setTimeout(() => {
+       heartBoxes.forEach(box => box.classList.add("hide"));
+       setTimeout(() => {
+         heartBoxes.forEach(box => box.remove());
+         startFullScreen();
+       }, 400);
+     }, 1000); // ←这里改成停留1秒
+   }, allHeartPopFinishTime);
+ }
+ function startFullScreen() {
+   const total = 131;
+   const interval = 4000 / total;
+   const randomPoints = getRandomPoints(total);
+   const fullBoxes = createFullPopups(randomPoints);
+   fullBoxes.forEach((box, idx) => {
+     setTimeout(() => box.classList.add("show"), idx * interval);
+   });
+ }
+ // 输入确认逻辑
+ const panel = document.getElementById("inputPanel");
+ const input = document.getElementById("nameInput");
+ const btn = document.getElementById("confirmBtn");
+ btn.onclick = ()=>{
+   if(input.value.trim() === "袁语汐"){
+     panel.classList.add("hide");
+     setTimeout(startAnimation,850);
+   }else{
+     alert("名字不对哦，再试一次");
+   }
+ }
+ input.onkeydown = (e)=>{
+   if(e.key === 'Enter') btn.click();
+ }
+ </script>
+ </body>
+ </html>
