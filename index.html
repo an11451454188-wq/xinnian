@@ -192,7 +192,7 @@
  <div id="heartsBg"></div>
  <div id="inputPanel">
    <div class="title1-wrap">
-     <div class="title1">祝某某某新年快乐</div>
+     <div class="title1">祝袁语汐新年快乐</div>
    </div>
    <div class="title2">这是专属于你的网站</div>
    <div class="title3">输入你的名字 查收我对你的心意</div>
@@ -216,7 +216,7 @@
  for(let i = 0; i < totalHearts; i++){
    createBgHeart();
  }
- // 52条，最后一条：某某某爱某某某❤️
+ // 52条，最后一条：潘城爱袁语汐❤️
  const texts = [
    "愿你岁岁平安✨",
    "万事皆能如愿🎆",
@@ -269,7 +269,7 @@
    "日子满是甜意🍬",
    "奔赴属于光亮🌟",
    "爱意岁岁绵长💞",
-   "某某某爱某某某❤️"
+   "潘城爱袁语汐❤️"
  ];
  const colorList = [
    "#ffe6ef",
@@ -354,7 +354,7 @@ div.innerText = texts[idx % texts.length];
    heartBoxes.forEach((box, idx) => {
      setTimeout(() => box.classList.add("show"), idx * popInterval);
    });
-   // 全部爱心弹窗弹完之后，停留【1000毫秒 = 1秒】再消失
+   // 全部爱心弹窗弹完之后，停留【2000毫秒 = 2秒】再消失
    const allHeartPopFinishTime = (heartBoxes.length - 1) * popInterval;
    setTimeout(() => {
      setTimeout(() => {
@@ -363,7 +363,7 @@ div.innerText = texts[idx % texts.length];
          heartBoxes.forEach(box => box.remove());
          startFullScreen();
        }, 400);
-     }, 1000); // ←这里改成停留1秒
+     }, 2000); // ←这里改成停留2秒
    }, allHeartPopFinishTime);
  }
  function startFullScreen() {
@@ -380,7 +380,7 @@ div.innerText = texts[idx % texts.length];
  const input = document.getElementById("nameInput");
  const btn = document.getElementById("confirmBtn");
  btn.onclick = ()=>{
-   if(input.value.trim() === "某某某"){
+   if(input.value.trim() === "袁语汐"){
      panel.classList.add("hide");
      setTimeout(startAnimation,850);
    }else{
