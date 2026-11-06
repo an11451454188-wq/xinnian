@@ -144,7 +144,6 @@ body{
 }
 #confirmBtn:active{ transform: scale(0.95); }
 
-/* 爱心阶段弹窗：尺寸缩小，不再那么笨重 */
 .win.heart-item{
   position: absolute;
   width: 110px;   
@@ -169,7 +168,6 @@ body{
 .win.heart-item.show{ opacity: 1; transform: translateY(0) scale(1); }
 .win.heart-item.hide{ opacity: 0; transform: scale(0.6); }
 
-/* 满屏弹窗：恢复原来的大小 110x60，字号 11px */
 .win.full-item{
   position: absolute;
   width: 110px;
@@ -193,7 +191,6 @@ body{
 }
 .win.full-item.show{ opacity: 1; transform: scale(1); }
 
-/* 跳过按钮 */
 #skipBtn{
   position: fixed;
   top: 16px;
@@ -214,7 +211,6 @@ body{
 }
 #skipBtn.show{ opacity: 1; pointer-events: auto; }
 
-/* 确认弹窗 */
 #confirmModal{
   position: fixed;
   inset: 0;
@@ -267,7 +263,6 @@ body{
   box-shadow: 0 4px 14px #ff4d8d44;
 }
 
-/* 乱跑按钮 */
 .random-float-btn{
   position: fixed;
   z-index: 35;
@@ -283,7 +278,6 @@ body{
 }
 .random-float-btn:active{ transform: scale(0.92); }
 
-/* 霸道强制弹窗 */
 #forceModal{
   position: fixed;
   inset: 0;
@@ -353,71 +347,20 @@ body{
   border: 1px solid rgba(255,255,255,0.38);
   padding: 26px 22px;
   box-shadow: 0 10px 40px rgba(255,90,150,0.22);
+  position: relative;
 }
+
+/* 清理了重复的样式 */
 .type-area{
-  font-size: 16px; /* 稍微大一点点，阅读更舒服 */
+  font-size: 16px;
   line-height: 2.1;
-  color: #3b312b; /* 像深棕色/黑色的墨水 */
+  color: #3b312b;
   white-space: pre-wrap;
   position: relative;
-  /* 优先使用楷体，更像手写字 */
   font-family: "Kaiti SC", "STKaiti", "KaiTi", "Source Han Sans SC", sans-serif; 
   letter-spacing: 1px;
 }
-  font-size: 16px; /* 稍微大一点点，阅读更舒服 */
-  line-height: 2.1;
-  color: #3b312b; /* 像深棕色/黑色的墨水 */
-  white-space: pre-wrap;
-  position: relative;
-  /* 优先使用楷体，更像手写字 */
-  font-family: "Kaiti SC", "STKaiti", "KaiTi", "Source Han Sans SC", sans-serif; 
-  letter-spacing: 1px;
-}
-  font-size: 16px; /* 稍微大一点点，阅读更舒服 */
-  line-height: 2.1;
-  color: #3b312b; /* 像深棕色/黑色的墨水 */
-  white-space: pre-wrap;
-  position: relative;
-  /* 优先使用楷体，更像手写字 */
-  font-family: "Kaiti SC", "STKaiti", "KaiTi", "Source Han Sans SC", sans-serif; 
-  letter-spacing: 1px;
-}
-  font-size: 16px; /* 稍微大一点点，阅读更舒服 */
-  line-height: 2.1;
-  color: #3b312b; /* 像深棕色/黑色的墨水 */
-  white-space: pre-wrap;
-  position: relative;
-  /* 优先使用楷体，更像手写字 */
-  font-family: "Kaiti SC", "STKaiti", "KaiTi", "Source Han Sans SC", sans-serif; 
-  letter-spacing: 1px;
-}
-  font-size: 16px; /* 稍微大一点点，阅读更舒服 */
-  line-height: 2.1;
-  color: #3b312b; /* 像深棕色/黑色的墨水 */
-  white-space: pre-wrap;
-  position: relative;
-  /* 优先使用楷体，更像手写字 */
-  font-family: "Kaiti SC", "STKaiti", "KaiTi", "Source Han Sans SC", sans-serif; 
-  letter-spacing: 1px;
-}
-  font-size: 16px; /* 稍微大一点点，阅读更舒服 */
-  line-height: 2.1;
-  color: #3b312b; /* 像深棕色/黑色的墨水 */
-  white-space: pre-wrap;
-  position: relative;
-  /* 优先使用楷体，更像手写字 */
-  font-family: "Kaiti SC", "STKaiti", "KaiTi", "Source Han Sans SC", sans-serif; 
-  letter-spacing: 1px;
-}
-  font-size: 16px; /* 稍微大一点点，阅读更舒服 */
-  line-height: 2.1;
-  color: #3b312b; /* 像深棕色/黑色的墨水 */
-  white-space: pre-wrap;
-  position: relative;
-  /* 优先使用楷体，更像手写字 */
-  font-family: "Kaiti SC", "STKaiti", "KaiTi", "Source Han Sans SC", sans-serif; 
-  letter-spacing: 1px;
-}
+
 .cursor{
   display: inline-block;
   width: 2px;
@@ -431,6 +374,32 @@ body{
   0%, 49%{ opacity: 1; }
   50%, 100%{ opacity: 0; }
 }
+
+/* 新增按钮和底部区域的样式 */
+#loadFullBtnWrap {
+  text-align: center;
+  margin-top: 20px;
+}
+#loadFullBtn, #surpriseBtn {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.4);
+  color: #a42c5e;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(255, 105, 180, 0.2);
+}
+#loadFullBtn:active, #surpriseBtn:active { transform: scale(0.95); }
+#surpriseBtn {
+  background: linear-gradient(135deg,#ff75a8,#ff4d8d);
+  color: #fff;
+  border: none;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
 #letterFooter{
   margin-top: 16px;
   text-align: right;
@@ -451,8 +420,60 @@ body{
 }
 #replayBtn:active{ transform: scale(0.95); }
 
+/* 新增的惊喜弹窗 */
+#surpriseModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+  padding: 20px;
+}
+#surpriseModal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+.surprise-box {
+  width: min(320px, 85vw);
+  background: rgba(255,255,255,0.3);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border-radius: 20px;
+  border: 2px solid rgba(255,255,255,0.6);
+  padding: 35px 24px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(255,80,140,0.4);
+  transform: scale(0.9);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+#surpriseModal.show .surprise-box {
+  transform: scale(1);
+}
+.surprise-text {
+  font-size: 20px;
+  color: #c41e5c;
+  font-weight: bold;
+  margin-bottom: 16px;
+  line-height: 1.5;
+  text-shadow: 0 0 10px rgba(255,255,255,0.8);
+}
+.surprise-subtext {
+  font-size: 15px;
+  color: #902b55;
+  line-height: 1.6;
+  padding: 12px;
+  border-top: 1px dashed rgba(196, 30, 92, 0.3);
+}
+
 @media (max-width: 480px){
   .title1{ letter-spacing: 4px; }
+  #letterFooter { text-align: center; }
+  #surpriseBtn { margin-left: 5px; }
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -468,7 +489,7 @@ body{
 
 <div id="inputPanel">
   <div class="title1-wrap">
-    <div class="title1" id="pageTitle">祝袁语汐新年快乐</div>
+    <div class="title1" id="pageTitle">祝某某新年快乐</div>
   </div>
   <div class="title2">这是专属于你的网站</div>
   <div class="title3">输入你的名字 查收我对你的心意</div>
@@ -479,7 +500,7 @@ body{
 
 <div id="confirmModal">
   <div class="modal-box">
-    <div class="modal-text">潘城给你写了封信<br>要打开来看看吗</div>
+    <div class="modal-text">某某给你写了封信<br>要打开来看看吗</div>
     <div class="btn-row">
       <button class="modal-btn" id="btnNo">选右边的</button>
       <button class="modal-btn" id="btnYes">好呀</button>
@@ -497,19 +518,34 @@ body{
 <div id="letterBoxWrap">
   <div class="letter-glass">
     <div class="type-area" id="typeContent"></div>
+    <!-- 加载全文按钮容器 -->
+    <div id="loadFullBtnWrap">
+      <button id="loadFullBtn">直接加载全文</button>
+    </div>
+    <!-- 底部按钮区域 -->
     <div id="letterFooter">
       <button id="replayBtn">再看一遍</button>
+      <button id="surpriseBtn">点击此处有惊喜</button>
     </div>
+  </div>
+</div>
+
+<!-- 新增惊喜弹窗 -->
+<div id="surpriseModal">
+  <div class="surprise-box">
+    <div class="surprise-text">潘城，袁语汐喜欢你哦</div>
+    <div class="surprise-subtext">可凭此话兑换一份惊喜</div>
   </div>
 </div>
 
 <script>
 /* ==================== 可配置区 ==================== */
 const CONFIG = {
-  loverName: "袁语汐",            
-  pageTitle: "祝袁语汐新年快乐",  
+  loverName: "某某",            
+  pageTitle: "祝某某新年快乐",  
   typeSpeed: 75,                
-  letter: `我爱你！`,
+  letter: `我爱你！
+        爱你只有无数次和阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次`,
   greetings: [
     "愿你岁岁平安✨","万事皆能如愿🎆","日子温柔闪光💖","前路万事可期🌟",
     "平安喜乐常伴🎇","烦恼统统远离🍀","年年胜意欢愉💫","提笔合笔如愿📖",
@@ -523,7 +559,7 @@ const CONFIG = {
     "好运接踵而来🍂","浪漫永不落幕🌷","欢喜藏于日常🎀","前路清风相伴🍃",
     "所想皆有回响🔔","岁岁与美好相逢🌙","温柔常驻心底💓","好运一路同行🛤️",
     "保持满心欢喜🥰","万事顺意无忧🎆","邂逅所有美好✨","岁岁共享浪漫💌",
-    "日子满是甜意🍬","奔赴属于光亮🌟","爱意岁岁绵长💞","潘城爱袁语汐❤️"
+    "日子满是甜意🍬","奔赴属于光亮🌟","爱意岁岁绵长💞","某某爱某某❤️"
   ],
   colors: ["#ffe6ef","#e6f7ff","#fff7d9","#e9ffe9","#f3e8ff","#ffeede"]
 };
@@ -555,12 +591,12 @@ function getSize(){
   };
 }
 
-/* ---------- 爱心点位（尺寸已匹配新的 110x60 弹窗） ---------- */
+/* ---------- 爱心点位 ---------- */
 function getHeartPoints(num){
   const { w, h } = getSize();
   const points = [];
-  const ww = 110; // 与 CSS 宽度一致
-  const wh = 60;  // 与 CSS 高度一致
+  const ww = 110;
+  const wh = 60;
   const maxScaleW = Math.max(40, (w - ww) / 2);
   const maxScaleH = Math.max(40, (h - wh) / 2.125);
   const scale = Math.min(Math.min(w, h) * 0.38, maxScaleW, maxScaleH);
@@ -579,7 +615,7 @@ function getHeartPoints(num){
   return points;
 }
 
-/* ---------- 满屏点位（原版 110x60 尺寸的完全随机） ---------- */
+/* ---------- 满屏点位 ---------- */
 function getRandomPoints(num) {
   const { w, h } = getSize();
   const points = [];
@@ -644,6 +680,12 @@ const replayBtn     = document.getElementById("replayBtn");
 const forceModal   = document.getElementById("forceModal");
 const forceOkBtn   = document.getElementById("forceOkBtn");
 const skipBtn      = document.getElementById("skipBtn");
+
+// 新增DOM
+const loadFullBtnWrap = document.getElementById("loadFullBtnWrap");
+const loadFullBtn     = document.getElementById("loadFullBtn");
+const surpriseBtn     = document.getElementById("surpriseBtn");
+const surpriseModal   = document.getElementById("surpriseModal");
 
 /* 初始化文本 */
 pageTitle.textContent = CONFIG.pageTitle;
@@ -733,6 +775,10 @@ function openLetter(){
   forceModal.classList.remove("show");
   hideSkipBtn();
   letterFooter.classList.remove("show");
+  
+  // 重置底部状态
+  loadFullBtnWrap.style.display = "block"; // 显示加载全文按钮
+  surpriseModal.classList.remove("show"); // 确保惊喜弹窗是关着的
 
   letterBoxWrap.classList.add("showLetter");
   setTimeout(() => typeWriter(CONFIG.letter), 100);
@@ -752,6 +798,7 @@ async function typeWriter(text){
       typeContent.textContent = text;
       letterGlass.scrollTop = letterGlass.scrollHeight;
       typingActive = false;
+      loadFullBtnWrap.style.display = "none"; // 隐藏加载全文按钮
       letterFooter.classList.add("show");
       return;
     }
@@ -764,13 +811,32 @@ async function typeWriter(text){
   typeContent.textContent = text;   
   letterGlass.scrollTop = letterGlass.scrollHeight;
   typingActive = false;
+  loadFullBtnWrap.style.display = "none"; // 自然打完也隐藏按钮
   letterFooter.classList.add("show");
 }
 function finishTyping(){
   if (typingActive) typingSkip = true;
 }
 
-/* ---------- 乱跑按钮（窄屏安全版） ---------- */
+/* ---------- 「加载全文」按钮点击事件 ---------- */
+loadFullBtn.onclick = (e) => {
+  e.stopPropagation(); // 阻止事件冒泡到 letterBoxWrap
+  finishTyping();
+};
+
+/* ---------- 「惊喜」按钮点击事件 ---------- */
+surpriseBtn.onclick = (e) => {
+  e.stopPropagation();
+  // 1. 先把信件框淡出
+  letterBoxWrap.classList.remove("showLetter");
+  
+  // 2. 等待大概 600ms 后，弹出惊喜弹窗
+  setTimeout(() => {
+    surpriseModal.classList.add("show");
+  }, 600);
+};
+
+/* ---------- 乱跑按钮 ---------- */
 function createRandomButton(text){
   document.querySelectorAll(".random-float-btn").forEach(el => el.remove());
 
@@ -844,7 +910,7 @@ skipBtn.onclick = () => {
 
 /* ---------- 点击信件区域 → 跳过打字 ---------- */
 letterBoxWrap.addEventListener("click", (e) => {
-  if (e.target.closest("#replayBtn")) return;
+  if (e.target.closest("#replayBtn") || e.target.closest("#surpriseBtn") || e.target.closest("#loadFullBtn")) return;
   finishTyping();
 });
 
@@ -858,6 +924,11 @@ replayBtn.onclick = (e) => {
   forceModal.classList.remove("show");
   letterBoxWrap.classList.remove("showLetter");
   letterFooter.classList.remove("show");
+  
+  // 重置状态
+  surpriseModal.classList.remove("show");
+  loadFullBtnWrap.style.display = "block";
+
   btnNo.classList.remove("hideBtn");
   typeContent.innerHTML = "";
   typingToken++;
