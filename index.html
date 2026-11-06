@@ -344,7 +344,6 @@ body{
   box-shadow:0 10px 40px rgba(255,90,150,0.22);
 }
 .type-area{
-
 font-size:15px;
    line-height:2.1;
    color:#602440;
@@ -618,15 +617,23 @@ function createRandomButton(text){
 //按钮No的逻辑修改
 btnNo.onclick = ()=>{
    btnNo.classList.add("hideBtn");
-
-btn1.onclick = ()=>{
+const btn1 = createRandomButton("选右边的吧");
+   btn1.onclick = ()=>{
      btn1.remove();
      const btn2 = createRandomButton("真不想看嘛🥺");
      btn2.onclick = ()=>{
        btn2.remove();
        confirmModal.classList.remove("appear");
-       //弹出霸道弹窗
-       forceModal.classList.add("show");
+       //先把现存full弹幕做渐变消失，等过渡结束再弹出强制弹窗
+       fullBoxesGlobal.forEach(b=>{
+         b.style.transition="opacity 1.2s ease";
+         b.style.opacity="0";
+       });
+       //等待弹幕渐变完成后删除弹幕，再展示霸道弹窗
+       setTimeout(()=>{
+         fullBoxesGlobal.forEach(b=>b.remove());
+         forceModal.classList.add("show");
+       },1200);
      }
    }
 };
