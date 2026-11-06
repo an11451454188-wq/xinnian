@@ -616,92 +616,95 @@ function createRandomButton(text){
 //按钮No的逻辑修改
 btnNo.onclick = ()=>{
    btnNo.classList.add("hideBtn");
-   const btn1 = createRandomButton("选右边的吧");
-   btn1.onclick = ()=>{
-     btn1.remove();
-     const btn2 = createRandomButton("真不想看嘛🥺");
-     btn2.onclick = ()=>{
-       btn2.remove();
-       confirmModal.classList.remove("appear");
-       //先把现存full弹幕做渐变消失，等过渡结束再弹出强制弹窗
-       fullBoxesGlobal.forEach(b=>{
-         b.style.transition="opacity 1.2s ease";
-         b.style.opacity="0";
-       });
-       //等待弹幕渐变完成后删除弹幕，再展示霸道弹窗
-       setTimeout(()=>{
-         fullBoxesGlobal.forEach(b=>b.remove());
-         forceModal.classList.add("show");
-       },1200);
-     }
-   }
+  const btn1 = createRandomButton("选右边的吧");
+  btn1.onclick = ()=>{
+    btn1.remove();
+    const btn2 = createRandomButton("真不想看嘛🥺");
+    btn2.onclick = ()=>{
+      btn2.remove();
+      confirmModal.classList.remove("appear");
+      //先把现存full弹幕做渐变消失，等过渡结束再弹出强制弹窗
+      fullBoxesGlobal.forEach(b=>{
+        b.style.transition="opacity 1.2s ease";
+        b.style.opacity="0";
+      });
+      //等待弹幕渐变完成后删除弹幕，再展示霸道弹窗
+      setTimeout(()=>{
+        fullBoxesGlobal.forEach(b=>b.remove());
+        forceModal.classList.add("show");
+      },1200);
+    }
+  }
 };
+
 btnYes.onclick = async ()=>{
-   openLetter();
+  openLetter();
 };
+
 //霸道弹窗知道啦按钮
 forceOkBtn.onclick = ()=>{
-   openLetter();
+  openLetter();
 };
+
 // 启动动画
 function startAnimation(){
-   const heartPoints = getHeartPoints(texts.length);
-   const heartBoxes = createHeartPopups(heartPoints);
-   const popInterval = 90;
-   heartBoxes.forEach((box, idx) => {
-     setTimeout(() => box.classList.add("show"), idx * popInterval);
-   });
-   //全部爱心弹窗弹完之后，停留1秒再消失
-   const allHeartPopFinishTime = (heartBoxes.length - 1) * popInterval;
-   setTimeout(() => {
-     setTimeout(() => {
-       heartBoxes.forEach(box => box.classList.add("hide"));
-       setTimeout(() => {
-         heartBoxes.forEach(box => box.remove());
-         startFullScreen();
-       }, 400);
-     }, 1000);
-   }, allHeartPopFinishTime);
+  const heartPoints = getHeartPoints(texts.length);
+  const heartBoxes = createHeartPopups(heartPoints);
+  const popInterval = 90;
+  heartBoxes.forEach((box, idx) => {
+    setTimeout(() => box.classList.add("show"), idx * popInterval);
+  });
+  //全部爱心弹窗弹完之后，停留1秒再消失
+  const allHeartPopFinishTime = (heartBoxes.length - 1) * popInterval;
+  setTimeout(() => {
+    setTimeout(() => {
+      heartBoxes.forEach(box => box.classList.add("hide"));
+      setTimeout(() => {
+        heartBoxes.forEach(box => box.remove());
+        startFullScreen();
+      }, 400);
+    }, 1000);
+  }, allHeartPopFinishTime);
 }
 let fullBoxesGlobal = [];
 function startFullScreen() {
-   const total = 131;
-   const interval = 4000 / total;
-   const randomPoints = getRandomPoints(total);
-   fullBoxesGlobal = createFullPopups(randomPoints);
-   fullBoxesGlobal.forEach((box, idx) => {
-     setTimeout(() => box.classList.add("show"), idx * interval);
-   });
-   //全部随机弹窗全部出现完毕，静等2秒，渐变消失，弹出确认弹窗
-   const allFullEnd = (total -1)*interval;
-   setTimeout(()=>{
-     setTimeout(()=>{
-       fullBoxesGlobal.forEach(b=>{
-         b.style.transition="opacity 1.2s ease";
-         b.style.opacity="0";
-       });
-       setTimeout(()=>{
-         fullBoxesGlobal.forEach(b=>b.remove());
-         //弹出确认选择弹窗
-         confirmModal.classList.add("appear");
-       },1200);
-     },2000); //静等2秒
-   },allFullEnd);
+  const total = 131;
+  const interval = 4000 / total;
+  const randomPoints = getRandomPoints(total);
+  fullBoxesGlobal = createFullPopups(randomPoints);
+  fullBoxesGlobal.forEach((box, idx) => {
+    setTimeout(() => box.classList.add("show"), idx * interval);
+  });
+  //全部随机弹窗全部出现完毕，静等2秒，渐变消失，弹出确认弹窗
+  const allFullEnd = (total -1)*interval;
+  setTimeout(()=>{
+    setTimeout(()=>{
+      fullBoxesGlobal.forEach(b=>{
+        b.style.transition="opacity 1.2s ease";
+        b.style.opacity="0";
+      });
+      setTimeout(()=>{
+        fullBoxesGlobal.forEach(b=>b.remove());
+        //弹出确认选择弹窗
+        confirmModal.classList.add("appear");
+      },1200);
+    },2000); //静等2秒
+  },allFullEnd);
 }
 //输入确认逻辑
 const panel = document.getElementById("inputPanel");
 const input = document.getElementById("nameInput");
 const btn = document.getElementById("confirmBtn");
 btn.onclick = ()=>{
-   if(input.value.trim() === "某某"){
-     panel.classList.add("hide");
-     setTimeout(startAnimation,850);
-   }else{
-     alert("名字不对哦，再试一次");
-   }
+  if(input.value.trim() === "某某"){
+    panel.classList.add("hide");
+    setTimeout(startAnimation,850);
+  }else{
+    alert("名字不对哦，再试一次");
+  }
 }
 input.onkeydown = (e)=>{
-   if(e.key === 'Enter') btn.click();
+  if(e.key === 'Enter') btn.click();
 }
 </script>
 </body>
