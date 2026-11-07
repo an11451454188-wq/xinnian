@@ -53,7 +53,7 @@ body{
 .box-title { font-size: 20px; color: #c41e5c; font-weight: bold; margin-bottom: 10px; }
 .box-text { font-size: 15px; color: #882b55; margin-bottom: 20px; line-height: 1.5; }
 
-/* ====== 阶段一：情绪探测仪 ====== */
+/* ====== 阶段一：你的开心程度 ====== */
 .slider-container { padding: 10px 0 25px; position: relative; }
 #emotionSlider { 
   -webkit-appearance: none; width: 100%; height: 16px;
@@ -221,15 +221,15 @@ body{
   <div class="coupon-card">
     <div class="coupon-header">✨ 专属惊喜兑换券 ✨</div>
     <div class="coupon-body">
-      <div class="coupon-title">万能心愿券</div>
-      <div class="coupon-text">可凭此券在某某处<br>兑换一份神秘惊喜哦！</div>
+      <div class="coupon-title">潘城，袁语汐喜欢你呀～</div>
+      <div class="coupon-text">给潘城发送这句话<br>可兑换一份神秘惊喜哦！</div>
     </div>
     <div class="coupon-divider"></div>
     <div class="coupon-bottom">
       <div class="coupon-code">NO. 2024-520-1314</div>
       <button class="stamp-btn" id="stampBtn">点击盖章生效</button>
       <div class="stamp-mark" id="stampMark">
-        <div>某某专属</div>
+        <div>袁语汐专属</div>
       </div>
     </div>
   </div>
@@ -237,7 +237,7 @@ body{
 
 <div id="inputPanel">
   <div class="title1-wrap">
-    <div class="title1" id="pageTitle">祝某某新年快乐</div>
+    <div class="title1" id="pageTitle">祝袁语汐新年快乐</div>
   </div>
   <div class="title2">这是专属于你的网站</div>
   <div class="title3">输入你的名字 查收我对你的心意</div>
@@ -246,7 +246,7 @@ body{
   <button id="confirmBtn">确认</button>
 </div>
 
-<!-- 阶段一：情绪探测仪（修改版） -->
+<!-- 阶段一：你的开心程度（修改版） -->
 <div id="emotionPanel" class="overlay-panel">
   <div class="glass-box" id="emotionBox">
     <div class="box-title">现在你的开心程度</div>
@@ -293,7 +293,7 @@ body{
 
 <div id="confirmModal">
   <div class="modal-box">
-    <div class="modal-text">某某给你写了封信<br>要打开来看看吗</div>
+    <div class="modal-text">潘城给你写了封信<br>要打开来看看吗</div>
     <div class="btn-row">
       <button class="modal-btn" id="btnNo">选右边的</button>
       <button class="modal-btn" id="btnYes">好呀</button>
@@ -312,7 +312,7 @@ body{
   <div class="envelope" id="envelope">
     <div class="env-paper" id="envPaper"></div>
     <div class="env-flap" id="envFlap"></div>
-    <div class="env-stamp">To: 某某</div>
+    <div class="env-stamp">To: 袁语汐</div>
     <div class="env-hint">👇 点击信封打开</div>
   </div>
 </div>
@@ -333,8 +333,8 @@ body{
 <script>
 /* ==================== 可配置区 ==================== */
 const CONFIG = {
-  loverName: "某某",            
-  pageTitle: "祝某某新年快乐",  
+  loverName: "袁语汐",            
+  pageTitle: "祝袁语汐新年快乐",  
   typeSpeed: 100,                
   letter: `我爱你！
         爱你只有无数次和阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次`,
@@ -351,20 +351,20 @@ const CONFIG = {
     "好运接踵而来🍂","浪漫永不落幕🌷","欢喜藏于日常🎀","前路清风相伴🍃",
     "所想皆有回响🔔","岁岁与美好相逢🌙","温柔常驻心底💓","好运一路同行🛤️",
     "保持满心欢喜🥰","万事顺意无忧🎆","邂逅所有美好✨","岁岁共享浪漫💌",
-    "日子满是甜意🍬","奔赴属于光亮🌟","爱意岁岁绵长💞","某某爱某某❤️"
+    "日子满是甜意🍬","奔赴属于光亮🌟","爱意岁岁绵长💞","潘城爱袁语汐❤️"
   ],
   colors: ["#ffe6ef","#e6f7ff","#fff7d9","#e9ffe9","#f3e8ff","#ffeede"],
 
   quizData: [
     {
       question: "我们是什么时候认识的？",
-      options: ["2025年12月31号", "2026年1月1号", "2026年2月14号"],
-      answer: "2026年1月1号"
+      options: ["2026年9月16号", "2026年8月23号", "2026年8月13号"],
+      answer: "2026年8月13号"
     },
     {
       question: "你送我的第一个玩偶是什么动物？",
-      options: ["小熊", "兔子", "鸡"],
-      answer: "鸡"
+      options: ["小熊", "兔子", "坤"],
+      answer: "坤"
     },
     {
       question: "我送你的第一个礼物是什么？",
@@ -561,9 +561,9 @@ confirmEmotionBtn.onclick = () => {
   if (val <= 25) {
     feedback = "看来你现在心情很平静呢，是我新年祝福准备的不够好吗🥺";
   } else if (val <= 50) {
-    feedback = "嘴角已经微微上扬了对吧？我就知道你会喜欢这份心意的。";
+    feedback = "嘴角已经微微上扬了对吧？我就知道你会喜欢这份心意的😁";
   } else if (val <= 75) {
-    feedback = "看来你真的挺开心的！能让你笑，就是我做这个网站最大的意义。";
+    feedback = "看来你真的挺开心的！能让你笑，就是我做这个网站最大的意义！😆";
   } else {
     feedback = "看来你收到我这个惊喜超级开心呀！开心值已经爆表啦！🥰";
   }
@@ -581,7 +581,7 @@ confirmEmotionBtn.onclick = () => {
       quizPanel.classList.add("show");
       renderQuiz(); 
     }, 400);
-  }, 3000); // 停留 2 秒看反馈
+  }, 3000); // 停留 3 秒看反馈
 };
 
 /* ---------- 阶段2：默契问答逻辑 ---------- */
@@ -625,13 +625,13 @@ function startCrashSequence() {
   code.classList.remove("love"); title.classList.remove("love"); msg.classList.remove("love");
 
   crashTimers.push(setTimeout(() => {
-    code.innerText = "520"; title.innerText = "LOVE FOUND"; msg.innerText = "逗你的啦，只是某某想你想得死机了 🥰";
+    code.innerText = "520"; title.innerText = "LOVE FOUND"; msg.innerText = "逗你的啦，只是潘城想你想得死机了 🥰";
     code.classList.add("love"); title.classList.add("love"); msg.classList.add("love");
     crashTimers.push(setTimeout(() => {
       crashPanel.classList.remove("show");
       crashTimers.push(setTimeout(() => { confirmModal.classList.add("appear"); }, 400));
-    }, 1800));
-  }, 2000));
+    }, 2500));
+  }, 4500));
 }
 
 /* ---------- 打开信件 & 信封互动 ---------- */
@@ -760,7 +760,7 @@ skipBtn.onclick = () => {
 function jumpTo(step) {
   skipModal.classList.remove("show");
   if (step === 'emotion') {
-    // 重置情绪测试状态
+    // 重置你的开心程度状态
     emotionSlider.value = 0;
     emotionFeedback.classList.remove("show");
     emotionBox.classList.remove("pulse");
