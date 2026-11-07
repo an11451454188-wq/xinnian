@@ -20,487 +20,280 @@ body{
     radial-gradient(circle at 80% 10%, #ffb6d9 0%, transparent 28%),
     radial-gradient(circle at 50% 80%, #ff9ec7 0%, transparent 32%),
     linear-gradient(135deg, #ffe4f1 0%, #ffc2df 45%, #ffa5d2 100%);
+  transition: background 0.5s ease;
 }
-#heartsBg{
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
+
+/* ====== 星星拖尾特效 ====== */
+.star-trail {
+  position: fixed; pointer-events: none; z-index: 9999; color: #fff;
+  text-shadow: 0 0 5px #ff4d8d, 0 0 10px #ff4d8d; font-size: 16px;
+  animation: starFade 1s ease-out forwards;
 }
-.bg-heart{
-  position: absolute;
-  bottom: -40px;
-  color: #ff6fa2;
-  opacity: 0.35;
-  animation: floatUp linear infinite;
-  user-select: none;
+@keyframes starFade {
+  0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(30px) scale(0.2) rotate(180deg); opacity: 0; }
 }
-@keyframes floatUp{
-  0%{ transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
-  10%{ opacity: 0.4; }
-  90%{ opacity: 0.35; }
-  100%{ transform: translateY(-110vh) rotate(360deg) scale(1.1); opacity: 0; }
+
+#heartsBg{ position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-heart{ position: absolute; bottom: -40px; color: #ff6fa2; opacity: 0.35; animation: floatUp linear infinite; user-select: none; }
+@keyframes floatUp{ 0%{ transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; } 10%{ opacity: 0.4; } 90%{ opacity: 0.35; } 100%{ transform: translateY(-110vh) rotate(360deg) scale(1.1); opacity: 0; } }
+
+/* ====== 通用面板样式 ====== */
+.overlay-panel {
+  position: fixed; inset: 0; z-index: 20; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.5s ease; padding: 20px;
 }
-#inputPanel{
-  position: fixed;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  padding: 20px;
-  transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+.overlay-panel.show { opacity: 1; pointer-events: auto; }
+.glass-box {
+  width: min(340px, 90vw); background: rgba(255,255,255,0.25); backdrop-filter: blur(16px) saturate(130%); -webkit-backdrop-filter: blur(16px) saturate(130%);
+  border-radius: 16px; border: 1px solid rgba(255,255,255,0.4); padding: 28px 24px; text-align: center;
+  box-shadow: 0 10px 30px rgba(255,80,140,0.2); transition: box-shadow 0.3s ease;
 }
-#inputPanel.hide{
-  transform: translateY(120vh);
-  opacity: 0;
-  pointer-events: none;
+.glass-box.pulse { box-shadow: 0 0 30px rgba(255, 77, 141, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.8); }
+.box-title { font-size: 20px; color: #c41e5c; font-weight: bold; margin-bottom: 10px; }
+.box-text { font-size: 15px; color: #882b55; margin-bottom: 20px; line-height: 1.5; }
+
+/* ====== 阶段一：情绪探测仪 ====== */
+.slider-container { padding: 10px 0 25px; position: relative; }
+#emotionSlider { 
+  -webkit-appearance: none; width: 100%; height: 16px;
+  background: linear-gradient(90deg, #ffd1dc, #ff4d8d); border-radius: 10px; outline: none;
+  margin: 15px 0; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); 
 }
-.title1-wrap{
-  background: rgba(255, 255, 255, 0.18);
-  padding: 14px 36px;
-  border-radius: 24px;
-  box-shadow:
-    0 8px 32px rgba(255, 105, 180, 0.35),
-    inset 0 0 20px rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  margin-bottom: 16px;
+#emotionSlider::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 32px; height: 32px; background: #fff; border: 4px solid #ff4d8d;
+  border-radius: 50%; cursor: pointer; box-shadow: 0 0 15px rgba(255, 77, 141, 0.6), 0 0 5px rgba(255, 77, 141, 0.4); transition: transform 0.1s;
 }
-.title1{
-  font-size: clamp(22px, 6vw, 28px);
-  color: #c41e5c;
-  letter-spacing: 6px;
-  font-weight: 700;
-  text-shadow:
-    0 0 8px rgba(255,255,255,0.9),
-    0 0 18px rgba(255, 116, 168, 0.8);
+#emotionSlider::-webkit-slider-thumb:active { transform: scale(1.1); }
+
+/* 刻度数字 */
+.slider-labels { display: flex; justify-content: space-between; padding: 0 10px; font-size: 14px; color: #882b55; font-weight: bold; margin-top: -10px; }
+
+/* 确认按钮 */
+#confirmEmotionBtn {
+  margin-top: 15px; width: 120px; height: 40px; border-radius: 20px; border: none;
+  font-size: 15px; font-weight: bold; background: linear-gradient(135deg, #ff75a8, #ff4d8d);
+  color: #fff; cursor: pointer; box-shadow: 0 4px 12px rgba(255,77,141,0.3); transition: 0.2s;
 }
-.title2{
-  font-size: clamp(18px, 5vw, 22px);
-  color: #c2185b;
-  margin-bottom: 12px;
-  letter-spacing: 2px;
-  font-weight: 500;
+#confirmEmotionBtn:active { transform: scale(0.95); }
+
+/* 反馈文案容器 */
+#emotionFeedback {
+  margin-top: 15px; font-size: 15px; color: #c41e5c; font-weight: bold; min-height: 40px;
+  opacity: 0; transform: translateY(10px); transition: all 0.3s ease;
 }
-.title3{
-  font-size: clamp(15px, 4.2vw, 18px);
-  color: #b04070;
-  margin-bottom: 36px;
-  letter-spacing: 1px;
-  font-weight: 400;
-  text-align: center;
+#emotionFeedback.show { opacity: 1; transform: translateY(0); }
+
+/* ====== 阶段二：默契大考验 ====== */
+.quiz-btn, .skip-menu-btn {
+  display: block; width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 12px;
+  border: 1px solid #ff75a8; background: rgba(255,255,255,0.6); color: #c41e5c; font-size: 16px; cursor: pointer; transition: 0.2s;
 }
-#nameInput{
-  width: min(280px, 80vw);
-  height: 46px;
-  border-radius: 24px;
-  border: 2px solid #ff9ec7;
-  outline: none;
-  padding: 0 20px;
-  font-size: 16px;
-  font-weight: 400;
-  background: #fff8fc;
-  color: #773355;
-  box-shadow: 0 0 14px #ff9ec788;
-  transition: border-color 0.3s, box-shadow 0.3s;
+.quiz-btn:active, .skip-menu-btn:active { transform: scale(0.95); background: #ffebf1; }
+.quiz-btn.wrong { animation: shake 0.4s; border-color: #ff0000; color: #ff0000; background: rgba(255,0,0,0.1); }
+@keyframes shake{ 0%, 100%{ transform: translateX(0); } 20%{ transform: translateX(-8px); } 40%{ transform: translateX(8px); } 60%{ transform: translateX(-6px); } 80%{ transform: translateX(6px); } }
+
+/* ====== 阶段三：逼真 404 页面 ====== */
+#crashPanel {
+  background: #ffffff; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; transition: opacity 0.4s ease;
 }
-#nameInput.shake{
-  border-color: #ff4d8d;
-  animation: shake 0.4s;
-}
-@keyframes shake{
-  0%, 100%{ transform: translateX(0); }
-  20%{ transform: translateX(-8px); }
-  40%{ transform: translateX(8px); }
-  60%{ transform: translateX(-6px); }
-  80%{ transform: translateX(6px); }
-}
-#inputHint{
-  margin-top: 12px;
-  font-size: 14px;
-  color: #c2185b;
-  min-height: 20px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
+.error-page { text-align: center; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.error-code { font-size: 150px; font-weight: 800; color: #333333; line-height: 1; margin-bottom: 15px; letter-spacing: -3px; transition: color 0.3s ease; }
+.error-title { font-size: 20px; font-weight: 500; color: #555555; letter-spacing: 4px; margin-bottom: 15px; transition: color 0.3s ease; }
+.error-msg { font-size: 14px; color: #888888; transition: all 0.3s ease; }
+.error-code.love { color: #ff4d8d; text-shadow: 0 0 20px rgba(255, 77, 141, 0.4); }
+.error-title.love { color: #c2185b; letter-spacing: 2px; }
+.error-msg.love { color: #902b55; font-weight: bold; font-size: 16px; }
+
+/* ====== 原有输入面板 ====== */
+#inputPanel{ position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; padding: 20px; transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out; }
+#inputPanel.hide{ transform: translateY(120vh); opacity: 0; pointer-events: none; }
+.title1-wrap{ background: rgba(255, 255, 255, 0.18); padding: 14px 36px; border-radius: 24px; box-shadow: 0 8px 32px rgba(255, 105, 180, 0.35), inset 0 0 20px rgba(255, 255, 255, 0.4); backdrop-filter: blur(18px) saturate(140%); -webkit-backdrop-filter: blur(18px) saturate(140%); border: 1px solid rgba(255, 255, 255, 0.35); margin-bottom: 16px; }
+.title1{ font-size: clamp(22px, 6vw, 28px); color: #c41e5c; letter-spacing: 6px; font-weight: 700; text-shadow: 0 0 8px rgba(255,255,255,0.9), 0 0 18px rgba(255, 116, 168, 0.8); }
+.title2{ font-size: clamp(18px, 5vw, 22px); color: #c2185b; margin-bottom: 12px; letter-spacing: 2px; font-weight: 500; }
+.title3{ font-size: clamp(15px, 4.2vw, 18px); color: #b04070; margin-bottom: 36px; letter-spacing: 1px; font-weight: 400; text-align: center; }
+#nameInput{ width: min(280px, 80vw); height: 46px; border-radius: 24px; border: 2px solid #ff9ec7; outline: none; padding: 0 20px; font-size: 16px; font-weight: 400; background: #fff8fc; color: #773355; box-shadow: 0 0 14px #ff9ec788; transition: border-color 0.3s, box-shadow 0.3s; }
+#nameInput.shake{ border-color: #ff4d8d; animation: shake 0.4s; }
+#inputHint{ margin-top: 12px; font-size: 14px; color: #c2185b; min-height: 20px; opacity: 0; transition: opacity 0.3s; }
 #inputHint.show{ opacity: 1; }
-#confirmBtn{
-  margin-top: 20px;
-  width: 140px;
-  height: 44px;
-  border-radius: 22px;
-  border: none;
-  font-size: 17px;
-  font-weight: 500;
-  background: linear-gradient(135deg, #ff75a8, #ff4d8d);
-  color: #fff;
-  cursor: pointer;
-  transition: 0.2s;
-  box-shadow: 0 8px 20px #ff4d8d66;
-}
+#confirmBtn{ margin-top: 20px; width: 140px; height: 44px; border-radius: 22px; border: none; font-size: 17px; font-weight: 500; background: linear-gradient(135deg, #ff75a8, #ff4d8d); color: #fff; cursor: pointer; transition: 0.2s; box-shadow: 0 8px 20px #ff4d8d66; }
 #confirmBtn:active{ transform: scale(0.95); }
 
-.win.heart-item{
-  position: absolute;
-  width: 110px;   
-  height: 60px;   
-  border-radius: 10px;
-  box-shadow: 0 0 14px #ffffffaa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 6px;
-  font-size: 11px; 
-  font-weight: 400;
-  color: #444444;
-  opacity: 0;
-  transform: translateY(120vh) scale(0.5);
-  transition: opacity 0.55s ease, transform 0.55s ease;
-  line-height: 1.35;
-  z-index: 5;
-  pointer-events: none;
-}
+/* ====== 弹窗与爱心 ====== */
+.win.heart-item, .win.full-item{ position: absolute; width: 110px; height: 60px; border-radius: 10px; box-shadow: 0 0 14px #ffffffaa; display: flex; align-items: center; justify-content: center; text-align: center; padding: 6px; font-size: 11px; font-weight: 400; color: #444444; opacity: 0; transition: opacity 0.55s ease, transform 0.55s ease; line-height: 1.35; z-index: 5; pointer-events: none; }
+.win.heart-item{ transform: translateY(120vh) scale(0.5); }
 .win.heart-item.show{ opacity: 1; transform: translateY(0) scale(1); }
 .win.heart-item.hide{ opacity: 0; transform: scale(0.6); }
-
-.win.full-item{
-  position: absolute;
-  width: 110px;
-  height: 60px;
-  border-radius: 10px;
-  box-shadow: 0 0 14px #ffffffaa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 6px;
-  font-size: 11px;
-  font-weight: 400;
-  color: #444444;
-  opacity: 0;
-  transform: scale(0.5);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  line-height: 1.35;
-  z-index: 5;
-  pointer-events: none;
-}
+.win.full-item{ transform: scale(0.5); }
 .win.full-item.show{ opacity: 1; transform: scale(1); }
 
-#skipBtn{
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  z-index: 50;
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.5);
-  background: rgba(255,255,255,0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  color: #a42c5e;
-  font-size: 13px;
-  cursor: pointer;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
+/* ====== 悬浮按钮通用样式 ====== */
+.floating-btn {
+  position: fixed; top: 16px; z-index: 999; padding: 8px 16px; border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.3);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  color: #a42c5e; font-size: 13px; cursor: pointer; transition: opacity 0.3s ease;
 }
-#skipBtn.show{ opacity: 1; pointer-events: auto; }
+#skipBtn { right: 16px; opacity: 0; pointer-events: none; }
+#skipBtn.show { opacity: 1; pointer-events: auto; }
+#backToLetterBtn { left: 16px; }
 
-#confirmModal{
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.25);
-  z-index: 30;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.6s ease;
-  padding: 20px;
-}
+#confirmModal{ position: fixed; inset: 0; background: rgba(0,0,0,0.25); z-index: 30; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.6s ease; padding: 20px; }
 #confirmModal.appear{ opacity: 1; pointer-events: auto; }
-.modal-box{
-  width: min(340px, 90vw);
-  background: rgba(255,255,255,0.22);
-  backdrop-filter: blur(16px) saturate(130%);
-  -webkit-backdrop-filter: blur(16px) saturate(130%);
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.35);
-  padding: 28px 24px;
-  box-shadow: 0 8px 30px rgba(255,80,140,0.25);
-}
-.modal-text{
-  text-align: center;
-  font-size: 17px;
-  color: #882b55;
-  margin-bottom: 26px;
-  line-height: 1.6;
-}
+.modal-box{ width: min(340px, 90vw); background: rgba(255,255,255,0.22); backdrop-filter: blur(16px) saturate(130%); border-radius: 16px; border: 1px solid rgba(255,255,255,0.35); padding: 28px 24px; box-shadow: 0 8px 30px rgba(255,80,140,0.25); }
+.modal-text{ text-align: center; font-size: 17px; color: #882b55; margin-bottom: 26px; line-height: 1.6; }
 .btn-row{ display: flex; gap: 16px; justify-content: center; }
-.modal-btn{
-  padding: 10px 26px;
-  border-radius: 22px;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.4s ease;
-}
+.modal-btn{ padding: 10px 26px; border-radius: 22px; border: none; font-size: 16px; cursor: pointer; transition: all 0.4s ease; }
 #btnNo{ background: #e8e8e8; color: #555; }
-#btnNo.hideBtn{
-  opacity: 0;
-  pointer-events: none;
-  transform: scale(0.7);
-}
-#btnYes{
-  background: linear-gradient(135deg,#ff75a8,#ff4d8d);
-  color: #fff;
-  box-shadow: 0 4px 14px #ff4d8d44;
-}
-
-.random-float-btn{
-  position: fixed;
-  z-index: 35;
-  border: none;
-  border-radius: 24px;
-  padding: 8px 20px;
-  font-size: 15px;
-  cursor: pointer;
-  background: #eeeeee;
-  color: #444;
-  box-shadow: 0 4px 12px #00000022;
-  transition: transform 0.3s ease;
-}
+#btnNo.hideBtn{ opacity: 0; pointer-events: none; transform: scale(0.7); }
+#btnYes{ background: linear-gradient(135deg,#ff75a8,#ff4d8d); color: #fff; box-shadow: 0 4px 14px #ff4d8d44; }
+.random-float-btn{ position: fixed; z-index: 35; border: none; border-radius: 24px; padding: 8px 20px; font-size: 15px; cursor: pointer; background: #eeeeee; color: #444; box-shadow: 0 4px 12px #00000022; transition: transform 0.3s ease; }
 .random-float-btn:active{ transform: scale(0.92); }
 
-#forceModal{
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.25);
-  z-index: 45;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.8s ease;
-  padding: 20px;
-}
+#forceModal{ position: fixed; inset: 0; background: rgba(0,0,0,0.25); z-index: 45; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; padding: 20px; }
 #forceModal.show{ opacity: 1; pointer-events: auto; }
-.force-box{
-  width: min(320px, 90vw);
-  background: rgba(255,255,255,0.24);
-  backdrop-filter: blur(16px) saturate(130%);
-  -webkit-backdrop-filter: blur(16px) saturate(130%);
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.4);
-  padding: 30px 24px;
-  text-align: center;
-}
-.force-text{
-  font-size: 18px;
-  color: #902b55;
-  margin-bottom: 24px;
-  line-height: 1.7;
-}
-#forceOkBtn{
-  border: none;
-  border-radius: 24px;
-  padding: 10px 30px;
-  font-size: 16px;
-  color: white;
-  background: linear-gradient(135deg,#ff75a8,#ff4d8d);
-  box-shadow: 0 4px 14px #ff4d8d44;
-  cursor: pointer;
-}
+.force-box{ width: min(320px, 90vw); background: rgba(255,255,255,0.24); backdrop-filter: blur(16px) saturate(130%); border-radius: 16px; border: 1px solid rgba(255,255,255,0.4); padding: 30px 24px; text-align: center; }
+.force-text{ font-size: 18px; color: #902b55; margin-bottom: 24px; line-height: 1.7; }
+#forceOkBtn{ border: none; border-radius: 24px; padding: 10px 30px; font-size: 16px; color: white; background: linear-gradient(135deg,#ff75a8,#ff4d8d); box-shadow: 0 4px 14px #ff4d8d44; cursor: pointer; }
 
-/* 打字信件 */
-#letterBoxWrap{
-  position: fixed;
-  inset: 0;
-  z-index: 40;
-  background: rgba(0,0,0,0.20);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 1s ease;
-}
+/* ====== 信封 ====== */
+#envelopeWrap { position: fixed; inset: 0; z-index: 48; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; perspective: 1000px; }
+#envelopeWrap.show { opacity: 1; pointer-events: auto; }
+.envelope { position: relative; width: 280px; height: 180px; background: #fdf5e6; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); cursor: pointer; transition: transform 0.6s ease, opacity 0.6s ease; }
+.envelope.open { transform: scale(0.9) translateY(50px); opacity: 0; pointer-events: none; }
+.env-paper { position: absolute; bottom: 10px; left: 15px; width: 250px; height: 140px; background: #fff; border-radius: 4px; box-shadow: 0 0 10px rgba(0,0,0,0.1); transition: transform 0.6s ease; z-index: 2; }
+.env-paper.pull { transform: translateY(-100px); }
+.env-flap { position: absolute; top: 0; left: 0; width: 0; height: 0; border-left: 140px solid transparent; border-right: 140px solid transparent; border-top: 100px solid #f4e4c1; border-radius: 8px; transform-origin: top; transition: transform 0.6s ease; z-index: 3; }
+.env-flap.open { transform: rotateX(180deg); z-index: 1; }
+.env-stamp { position: absolute; bottom: 30px; width: 100%; text-align: center; font-size: 22px; color: #c41e5c; font-family: "Kaiti SC", "STKaiti", serif; font-weight: bold; z-index: 4; pointer-events: none; transition: opacity 0.3s ease; }
+.envelope.open .env-stamp { opacity: 0; }
+.env-hint { position: absolute; bottom: -40px; width: 100%; text-align: center; color: #fff; font-size: 14px; animation: blink 1.5s infinite; z-index: 5; }
+.envelope.open .env-hint { display: none; }
+
+/* ====== 信件 ====== */
+#letterBoxWrap{ position: fixed; inset: 0; z-index: 40; background: rgba(0,0,0,0.20); display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 1s ease; }
 #letterBoxWrap.showLetter{ opacity: 1; pointer-events: auto; }
-.letter-glass{
-  width: min(520px, 92vw);
-  min-height: 340px;
-  max-height: 75vh;
-  max-height: 75dvh;
-  overflow-y: auto;
-  background: rgba(255,255,255,0.24);
-  backdrop-filter: blur(20px) saturate(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.38);
-  padding: 26px 22px;
-  box-shadow: 0 10px 40px rgba(255,90,150,0.22);
-  position: relative;
-}
-
-/* 清理了重复的样式 */
-.type-area{
-  font-size: 16px;
-  line-height: 2.1;
-  color: #3b312b;
-  white-space: pre-wrap;
-  position: relative;
-  font-family: "Kaiti SC", "STKaiti", "KaiTi", "Source Han Sans SC", sans-serif; 
-  letter-spacing: 1px;
-}
-
-.cursor{
-  display: inline-block;
-  width: 2px;
-  height: 1.35em;
-  background: #c2185b;
-  margin-left: 2px;
-  animation: blink 0.6s infinite;
-  vertical-align: text-bottom;
-}
-@keyframes blink{
-  0%, 49%{ opacity: 1; }
-  50%, 100%{ opacity: 0; }
-}
-
-/* 新增按钮和底部区域的样式 */
-#loadFullBtnWrap {
-  text-align: center;
-  margin-top: 20px;
-}
-#loadFullBtn, #surpriseBtn {
-  padding: 8px 20px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.6);
-  background: rgba(255,255,255,0.4);
-  color: #a42c5e;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 10px rgba(255, 105, 180, 0.2);
-}
+.letter-glass{ width: min(520px, 92vw); min-height: 340px; max-height: 75vh; max-height: 75dvh; overflow-y: auto; background: rgba(255,255,255,0.24); backdrop-filter: blur(20px) saturate(140%); border-radius: 18px; border: 1px solid rgba(255,255,255,0.38); padding: 26px 22px; box-shadow: 0 10px 40px rgba(255,90,150,0.22); position: relative; display: flex; flex-direction: column; }
+.type-area{ font-size: 16px; line-height: 2.1; color: #3b312b; white-space: pre-wrap; font-family: "Kaiti SC", "STKaiti", "KaiTi", "Source Han Sans SC", sans-serif; letter-spacing: 1px; flex-grow: 1; }
+.cursor{ display: inline-block; width: 2px; height: 1.35em; background: #c2185b; margin-left: 2px; animation: blink 0.6s infinite; vertical-align: text-bottom; }
+@keyframes blink{ 0%, 49%{ opacity: 1; } 50%, 100%{ opacity: 0; } }
+#loadFullBtnWrap { text-align: center; margin-top: 20px; }
+#loadFullBtn, #surpriseBtn { padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.6); background: rgba(255,255,255,0.4); color: #a42c5e; font-size: 13px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(255, 105, 180, 0.2); }
 #loadFullBtn:active, #surpriseBtn:active { transform: scale(0.95); }
-#surpriseBtn {
-  background: linear-gradient(135deg,#ff75a8,#ff4d8d);
-  color: #fff;
-  border: none;
-  margin-left: 10px;
-  font-weight: bold;
-}
-
-#letterFooter{
-  margin-top: 16px;
-  text-align: right;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  pointer-events: none;
-}
+#surpriseBtn { background: linear-gradient(135deg,#ff75a8,#ff4d8d); color: #fff; border: none; margin-left: 10px; font-weight: bold; }
+#letterFooter{ margin-top: 16px; text-align: right; opacity: 0; transform: translateY(6px); transition: opacity 0.5s ease, transform 0.5s ease; pointer-events: none; }
 #letterFooter.show{ opacity: 1; transform: translateY(0); pointer-events: auto; }
-#replayBtn{
-  padding: 8px 20px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.5);
-  background: rgba(255,255,255,0.32);
-  color: #a42c5e;
-  font-size: 13px;
-  cursor: pointer;
-}
-#replayBtn:active{ transform: scale(0.95); }
+#replayBtn{ padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.32); color: #a42c5e; font-size: 13px; cursor: pointer; }
 
-/* 新增的惊喜弹窗 */
-#surpriseModal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.3);
-  z-index: 60;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.8s ease;
-  padding: 20px;
-}
-#surpriseModal.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-.surprise-box {
-  width: min(320px, 85vw);
-  background: rgba(255,255,255,0.3);
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
-  border-radius: 20px;
-  border: 2px solid rgba(255,255,255,0.6);
-  padding: 35px 24px;
-  text-align: center;
-  box-shadow: 0 10px 40px rgba(255,80,140,0.4);
-  transform: scale(0.9);
-  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-#surpriseModal.show .surprise-box {
-  transform: scale(1);
-}
-.surprise-text {
-  font-size: 20px;
-  color: #c41e5c;
-  font-weight: bold;
-  margin-bottom: 16px;
-  line-height: 1.5;
-  text-shadow: 0 0 10px rgba(255,255,255,0.8);
-}
-.surprise-subtext {
-  font-size: 15px;
-  color: #902b55;
-  line-height: 1.6;
-  padding: 12px;
-  border-top: 1px dashed rgba(196, 30, 92, 0.3);
-}
-
-@media (max-width: 480px){
-  .title1{ letter-spacing: 4px; }
-  #letterFooter { text-align: center; }
-  #surpriseBtn { margin-left: 5px; }
-}
-
-@media (prefers-reduced-motion: reduce){
-  .bg-heart{ animation: none; opacity: 0.15; }
-  .win.heart-item, .win.full-item{ transition-duration: 0.2s; }
-}
+/* ====== 惊喜券 ====== */
+#surpriseModal { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 60; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; padding: 20px; }
+#surpriseModal.show { opacity: 1; pointer-events: auto; }
+.coupon-card { position: relative; width: min(340px, 90vw); background: #fff9fb; border-radius: 12px; box-shadow: 0 10px 30px rgba(255, 80, 140, 0.3); overflow: hidden; transform: scale(0.8) rotate(-5deg); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+#surpriseModal.show .coupon-card { transform: scale(1) rotate(0deg); }
+.coupon-header { background: linear-gradient(135deg, #ff75a8, #ff4d8d); color: #fff; text-align: center; padding: 15px; font-size: 18px; font-weight: bold; letter-spacing: 2px; }
+.coupon-body { padding: 25px 20px; text-align: center; position: relative; }
+.coupon-title { font-size: 22px; color: #c41e5c; font-weight: bold; margin-bottom: 15px; }
+.coupon-text { font-size: 15px; color: #902b55; line-height: 1.6; margin-bottom: 20px; }
+.coupon-divider { position: relative; height: 1px; border-bottom: 2px dashed #ffb6d9; margin: 0 20px 20px; }
+.coupon-divider::before, .coupon-divider::after { content: ''; position: absolute; top: -12px; width: 24px; height: 24px; background: rgba(0,0,0,0.4); border-radius: 50%; }
+.coupon-divider::before { left: -32px; }
+.coupon-divider::after { right: -32px; }
+.coupon-bottom { display: flex; justify-content: space-between; align-items: flex-end; padding: 0 20px 25px; position: relative; }
+.coupon-code { font-size: 12px; color: #b04070; font-family: monospace; }
+.stamp-btn { padding: 8px 16px; background: #ffebf1; border: 1px solid #ff75a8; color: #c41e5c; border-radius: 20px; font-size: 13px; cursor: pointer; transition: all 0.3s ease; }
+.stamp-btn:active { transform: scale(0.9); }
+.stamp-btn.hide { display: none; }
+.stamp-mark { position: absolute; right: 20px; bottom: 20px; width: 90px; height: 90px; border: 3px solid #e63946; border-radius: 50%; color: #e63946; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; transform: scale(2) rotate(-20deg); opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: inset 0 0 10px rgba(230, 57, 70, 0.3); }
+.stamp-mark::before { content: '★'; font-size: 18px; margin-bottom: 2px; }
+.stamp-mark.show { transform: scale(1) rotate(-15deg); opacity: 1; }
 </style>
 </head>
 <body>
 <div id="heartsBg"></div>
 
-<button id="skipBtn">跳过 ≫</button>
+<button id="skipBtn" class="floating-btn">跳过 ≫</button>
+
+<div id="surpriseModal">
+  <button id="backToLetterBtn" class="floating-btn">← 返回信件</button>
+  
+  <div class="coupon-card">
+    <div class="coupon-header">✨ 专属惊喜兑换券 ✨</div>
+    <div class="coupon-body">
+      <div class="coupon-title">万能心愿券</div>
+      <div class="coupon-text">可凭此券在某某处<br>兑换一份神秘惊喜哦！</div>
+    </div>
+    <div class="coupon-divider"></div>
+    <div class="coupon-bottom">
+      <div class="coupon-code">NO. 2024-520-1314</div>
+      <button class="stamp-btn" id="stampBtn">点击盖章生效</button>
+      <div class="stamp-mark" id="stampMark">
+        <div>某某专属</div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div id="inputPanel">
   <div class="title1-wrap">
-    <div class="title1" id="pageTitle">祝袁语汐新年快乐</div>
+    <div class="title1" id="pageTitle">祝某某新年快乐</div>
   </div>
   <div class="title2">这是专属于你的网站</div>
   <div class="title3">输入你的名字 查收我对你的心意</div>
-  <input id="nameInput" placeholder="只有潘城的小猫名字可以呦" autocomplete="off" />
+  <input id="nameInput" placeholder="只有输入你的名字可以呦" autocomplete="off" />
   <div id="inputHint"></div>
   <button id="confirmBtn">确认</button>
 </div>
 
+<!-- 阶段一：情绪探测仪（修改版） -->
+<div id="emotionPanel" class="overlay-panel">
+  <div class="glass-box" id="emotionBox">
+    <div class="box-title">现在你的开心程度</div>
+    <div class="slider-container">
+      <input type="range" id="emotionSlider" min="0" max="100" value="0">
+      <div class="slider-labels">
+        <span>0</span>
+        <span>10</span>
+      </div>
+    </div>
+    <div id="emotionFeedback"></div>
+    <button id="confirmEmotionBtn">确认开心值</button>
+  </div>
+</div>
+
+<!-- 阶段二：默契大考验 -->
+<div id="quizPanel" class="overlay-panel">
+  <div class="glass-box">
+    <div class="box-title">默契大考验</div>
+    <div class="box-text" id="quizQuestion">题目加载中...</div>
+    <div id="quizOptions"></div>
+  </div>
+</div>
+
+<!-- 阶段三：逼真静态 404 -->
+<div id="crashPanel" class="overlay-panel">
+  <div class="error-page">
+    <h1 class="error-code" id="errorCode">404</h1>
+    <p class="error-title" id="errorTitle">PAGE NOT FOUND</p>
+    <p class="error-msg" id="errorMsg">404_page_message</p>
+  </div>
+</div>
+
+<!-- 测试用跳转菜单 -->
+<div id="skipModal" class="overlay-panel">
+  <div class="glass-box">
+    <div class="box-title">快速跳转菜单</div>
+    <div class="box-text">当前测试环境，请选择要跳转的环节：</div>
+    <button class="skip-menu-btn" onclick="jumpTo('emotion')">1. 你的开心程度</button>
+    <button class="skip-menu-btn" onclick="jumpTo('quiz')">2. 默契大考验</button>
+    <button class="skip-menu-btn" onclick="jumpTo('envelope')">3. 信封</button>
+  </div>
+</div>
+
 <div id="confirmModal">
   <div class="modal-box">
-    <div class="modal-text">潘城给你写了封信<br>要打开来看看吗</div>
+    <div class="modal-text">某某给你写了封信<br>要打开来看看吗</div>
     <div class="btn-row">
       <button class="modal-btn" id="btnNo">选右边的</button>
       <button class="modal-btn" id="btnYes">好呀</button>
@@ -515,14 +308,21 @@ body{
   </div>
 </div>
 
+<div id="envelopeWrap">
+  <div class="envelope" id="envelope">
+    <div class="env-paper" id="envPaper"></div>
+    <div class="env-flap" id="envFlap"></div>
+    <div class="env-stamp">To: 某某</div>
+    <div class="env-hint">👇 点击信封打开</div>
+  </div>
+</div>
+
 <div id="letterBoxWrap">
   <div class="letter-glass">
     <div class="type-area" id="typeContent"></div>
-    <!-- 加载全文按钮容器 -->
     <div id="loadFullBtnWrap">
       <button id="loadFullBtn">直接加载全文</button>
     </div>
-    <!-- 底部按钮区域 -->
     <div id="letterFooter">
       <button id="replayBtn">再看一遍</button>
       <button id="surpriseBtn">点击此处有惊喜</button>
@@ -530,20 +330,12 @@ body{
   </div>
 </div>
 
-<!-- 新增惊喜弹窗 -->
-<div id="surpriseModal">
-  <div class="surprise-box">
-    <div class="surprise-text">潘城，袁语汐喜欢你哦</div>
-    <div class="surprise-subtext">给潘城打出此句话可兑换一份惊喜</div>
-  </div>
-</div>
-
 <script>
 /* ==================== 可配置区 ==================== */
 const CONFIG = {
-  loverName: "袁语汐",            
-  pageTitle: "祝袁语汐新年快乐",  
-  typeSpeed: 75,                
+  loverName: "某某",            
+  pageTitle: "祝某某新年快乐",  
+  typeSpeed: 100,                
   letter: `我爱你！
         爱你只有无数次和阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次`,
   greetings: [
@@ -559,22 +351,59 @@ const CONFIG = {
     "好运接踵而来🍂","浪漫永不落幕🌷","欢喜藏于日常🎀","前路清风相伴🍃",
     "所想皆有回响🔔","岁岁与美好相逢🌙","温柔常驻心底💓","好运一路同行🛤️",
     "保持满心欢喜🥰","万事顺意无忧🎆","邂逅所有美好✨","岁岁共享浪漫💌",
-    "日子满是甜意🍬","奔赴属于光亮🌟","爱意岁岁绵长💞","潘城爱袁语汐❤️"
+    "日子满是甜意🍬","奔赴属于光亮🌟","爱意岁岁绵长💞","某某爱某某❤️"
   ],
-  colors: ["#ffe6ef","#e6f7ff","#fff7d9","#e9ffe9","#f3e8ff","#ffeede"]
+  colors: ["#ffe6ef","#e6f7ff","#fff7d9","#e9ffe9","#f3e8ff","#ffeede"],
+
+  quizData: [
+    {
+      question: "我们是什么时候认识的？",
+      options: ["2025年12月31号", "2026年1月1号", "2026年2月14号"],
+      answer: "2026年1月1号"
+    },
+    {
+      question: "你送我的第一个玩偶是什么动物？",
+      options: ["小熊", "兔子", "鸡"],
+      answer: "鸡"
+    },
+    {
+      question: "我送你的第一个礼物是什么？",
+      options: ["围巾", "手套", "香水"],
+      answer: "围巾"
+    }
+  ]
 };
 /* ================================================== */
 
 const texts = CONFIG.greetings;
 const colorList = CONFIG.colors;
 
+/* ==================== 星星拖尾特效 ==================== */
+let lastStarTime = 0;
+document.addEventListener("mousemove", createStar);
+document.addEventListener("touchmove", createStar, { passive: true });
+function createStar(e) {
+  const now = Date.now();
+  if (now - lastStarTime < 60) return;
+  lastStarTime = now;
+  let x, y;
+  if (e.type === "touchmove") { x = e.touches[0].clientX; y = e.touches[0].clientY; } 
+  else { x = e.clientX; y = e.clientY; }
+  const star = document.createElement("div");
+  star.className = "star-trail";
+  star.innerText = Math.random() > 0.5 ? "✨" : "⭐";
+  star.style.left = x + "px"; star.style.top = y + "px";
+  star.style.transform = `translate(-50%, -50%) translate(${(Math.random()-0.5)*20}px, ${(Math.random()-0.5)*20}px)`;
+  document.body.appendChild(star);
+  setTimeout(() => star.remove(), 1000);
+}
+
 /* ---------- 背景小爱心 ---------- */
 const heartsBg = document.getElementById("heartsBg");
 (function createBgHearts(){
   for (let i = 0; i < 60; i++){
     const heart = document.createElement("div");
-    heart.className = "bg-heart";
-    heart.textContent = "♥";
+    heart.className = "bg-heart"; heart.textContent = "♥";
     heart.style.left = Math.random() * 100 + "vw";
     heart.style.fontSize = (Math.random() * 18 + 14) + "px";
     heart.style.animationDuration = (Math.random() * 8 + 8) + "s";
@@ -584,78 +413,42 @@ const heartsBg = document.getElementById("heartsBg");
 })();
 
 /* ---------- 尺寸工具 ---------- */
-function getSize(){
-  return {
-    w: document.documentElement.clientWidth || window.innerWidth,
-    h: document.documentElement.clientHeight || window.innerHeight
-  };
-}
+function getSize(){ return { w: document.documentElement.clientWidth || window.innerWidth, h: document.documentElement.clientHeight || window.innerHeight }; }
 
-/* ---------- 爱心点位 ---------- */
+/* ---------- 点位计算与弹窗创建 ---------- */
 function getHeartPoints(num){
-  const { w, h } = getSize();
-  const points = [];
-  const ww = 110;
-  const wh = 60;
-  const maxScaleW = Math.max(40, (w - ww) / 2);
-  const maxScaleH = Math.max(40, (h - wh) / 2.125);
+  const { w, h } = getSize(); const points = []; const ww = 110, wh = 60;
+  const maxScaleW = Math.max(40, (w - ww) / 2); const maxScaleH = Math.max(40, (h - wh) / 2.125);
   const scale = Math.min(Math.min(w, h) * 0.38, maxScaleW, maxScaleH);
-  const cx = w / 2;
-  const cy = h / 2 + 30;
-  
+  const cx = w / 2, cy = h / 2 + 30;
   for (let i = 0; i < num; i++){
     const t = (i / num) * Math.PI * 2;
     const x = 16 * Math.pow(Math.sin(t), 3);
     const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
-    points.push({
-      left: Math.max(0, Math.min(w - ww, cx + (x * scale) / 16 - ww / 2)),
-      top:  Math.max(0, Math.min(h - wh, cy + (y * scale) / 16 - wh / 2))
-    });
+    points.push({ left: Math.max(0, Math.min(w - ww, cx + (x * scale) / 16 - ww / 2)), top: Math.max(0, Math.min(h - wh, cy + (y * scale) / 16 - wh / 2)) });
   }
   return points;
 }
-
-/* ---------- 满屏点位 ---------- */
 function getRandomPoints(num) {
-  const { w, h } = getSize();
-  const points = [];
-  const ww = 110;
-  const wh = 60;
-  for (let i = 0; i < num; i++) {
-    points.push({
-      left: Math.random() * Math.max(0, w - ww),
-      top: Math.random() * Math.max(0, h - wh)
-    });
-  }
+  const { w, h } = getSize(); const points = []; const ww = 110, wh = 60;
+  for (let i = 0; i < num; i++) { points.push({ left: Math.random() * Math.max(0, w - ww), top: Math.random() * Math.max(0, h - wh) }); }
   return points;
 }
-
-/* ---------- 创建弹窗 ---------- */
 function createHeartPopups(points){
   const boxes = [];
   points.forEach((pos, idx) => {
-    const div = document.createElement("div");
-    div.className = "win heart-item";
-    div.innerText = texts[idx % texts.length];
-    div.style.left = pos.left + "px";
-    div.style.top = pos.top + "px";
-    div.style.background = colorList[idx % colorList.length];
-    document.body.appendChild(div);
-    boxes.push(div);
+    const div = document.createElement("div"); div.className = "win heart-item";
+    div.innerText = texts[idx % texts.length]; div.style.left = pos.left + "px"; div.style.top = pos.top + "px"; div.style.background = colorList[idx % colorList.length];
+    document.body.appendChild(div); boxes.push(div);
   });
   return boxes;
 }
 function createFullPopups(points){
   const boxes = [];
   points.forEach((pos, idx) => {
-    const div = document.createElement("div");
-    div.className = "win full-item";
-    div.innerText = texts[idx % texts.length];
-    div.style.left = pos.left + "px";
-    div.style.top = pos.top + "px";
-    div.style.background = colorList[idx % colorList.length];
-    document.body.appendChild(div);
-    boxes.push(div);
+    const div = document.createElement("div"); div.className = "win full-item";
+    div.innerText = texts[idx % texts.length]; div.style.left = pos.left + "px"; div.style.top = pos.top + "px"; div.style.background = colorList[idx % colorList.length];
+    document.body.appendChild(div); boxes.push(div);
   });
   return boxes;
 }
@@ -666,56 +459,57 @@ const input       = document.getElementById("nameInput");
 const btn         = document.getElementById("confirmBtn");
 const inputHint   = document.getElementById("inputHint");
 const pageTitle   = document.getElementById("pageTitle");
-
+const emotionPanel = document.getElementById("emotionPanel");
+const emotionBox  = document.getElementById("emotionBox");
+const emotionSlider = document.getElementById("emotionSlider");
+const emotionFeedback = document.getElementById("emotionFeedback");
+const confirmEmotionBtn = document.getElementById("confirmEmotionBtn");
+const quizPanel   = document.getElementById("quizPanel");
+const quizQuestion = document.getElementById("quizQuestion");
+const quizOptions = document.getElementById("quizOptions");
+const crashPanel  = document.getElementById("crashPanel");
+const skipModal   = document.getElementById("skipModal"); 
 const confirmModal = document.getElementById("confirmModal");
 const btnNo        = document.getElementById("btnNo");
 const btnYes       = document.getElementById("btnYes");
-
 const letterBoxWrap = document.getElementById("letterBoxWrap");
 const letterGlass   = document.querySelector(".letter-glass");
 const typeContent   = document.getElementById("typeContent");
 const letterFooter  = document.getElementById("letterFooter");
 const replayBtn     = document.getElementById("replayBtn");
-
 const forceModal   = document.getElementById("forceModal");
 const forceOkBtn   = document.getElementById("forceOkBtn");
 const skipBtn      = document.getElementById("skipBtn");
-
-// 新增DOM
 const loadFullBtnWrap = document.getElementById("loadFullBtnWrap");
 const loadFullBtn     = document.getElementById("loadFullBtn");
 const surpriseBtn     = document.getElementById("surpriseBtn");
 const surpriseModal   = document.getElementById("surpriseModal");
+const envelopeWrap    = document.getElementById("envelopeWrap");
+const envelope        = document.getElementById("envelope");
+const stampBtn        = document.getElementById("stampBtn");
+const stampMark       = document.getElementById("stampMark");
+const backToLetterBtn = document.getElementById("backToLetterBtn");
 
-/* 初始化文本 */
 pageTitle.textContent = CONFIG.pageTitle;
 
 /* ---------- 动画控制 ---------- */
 let runId = 0;          
 let typingToken = 0;
-let typingSkip = false;
-let typingActive = false;
 let fullBoxesGlobal = [];
+let crashTimers = []; 
 
 function showSkipBtn(){ skipBtn.classList.add("show"); }
 function hideSkipBtn(){ skipBtn.classList.remove("show"); }
 
-/* ---------- 爱心阶段 ---------- */
+/* ---------- 阶段0：爱心动画 ---------- */
 function startAnimation(){
-  const rid = runId;
-  showSkipBtn();
-
+  const rid = runId; showSkipBtn();
   const heartPoints = getHeartPoints(texts.length);
   const heartBoxes = createHeartPopups(heartPoints);
   const popInterval = 90;
-
   heartBoxes.forEach((box, idx) => {
-    setTimeout(() => {
-      if (rid !== runId) return;
-      box.classList.add("show");
-    }, idx * popInterval);
+    setTimeout(() => { if (rid !== runId) return; box.classList.add("show"); }, idx * popInterval);
   });
-
   const finishTime = (heartBoxes.length - 1) * popInterval;
   setTimeout(() => {
     if (rid !== runId) return;
@@ -731,247 +525,303 @@ function startAnimation(){
   }, finishTime);
 }
 
-/* ---------- 满屏阶段 ---------- */
+/* ---------- 阶段0.5：满屏弹窗 ---------- */
 function startFullScreen(){
-  const rid = runId;
-  const total = 131;
-  const interval = 4000 / total;
-  
+  const rid = runId; const total = 131; const interval = 4000 / total;
   const randomPoints = getRandomPoints(total);
   fullBoxesGlobal = createFullPopups(randomPoints);
-
   fullBoxesGlobal.forEach((box, idx) => {
-    setTimeout(() => {
-      if (rid !== runId) return;
-      box.classList.add("show");
-    }, idx * interval);
+    setTimeout(() => { if (rid !== runId) return; box.classList.add("show"); }, idx * interval);
   });
-
   const allFullEnd = (total - 1) * interval;
   setTimeout(() => {
     if (rid !== runId) return;
     setTimeout(() => {
       if (rid !== runId) return;
-      fullBoxesGlobal.forEach(b => {
-        b.style.transition = "opacity 1.2s ease";
-        b.style.opacity = "0";
-      });
+      fullBoxesGlobal.forEach(b => { b.style.transition = "opacity 1.2s ease"; b.style.opacity = "0"; });
       setTimeout(() => {
         if (rid !== runId) return;
         fullBoxesGlobal.forEach(b => b.remove());
         fullBoxesGlobal = [];
-        confirmModal.classList.add("appear");
+        
+        emotionPanel.classList.add("show");
+        showSkipBtn();
       }, 1200);
     }, 2000);
   }, allFullEnd);
 }
 
-/* ---------- 打开信件 ---------- */
+/* ==================== 阶段1：你的开心程度逻辑（修改版） ==================== */
+// 移除原来的自动判定，改为点击按钮触发
+confirmEmotionBtn.onclick = () => {
+  const val = parseInt(emotionSlider.value);
+  let feedback = "";
+
+  // 根据区间给出不同的反馈文案
+  if (val <= 25) {
+    feedback = "看来你现在心情很平静呢，是我新年祝福准备的不够好吗🥺";
+  } else if (val <= 50) {
+    feedback = "嘴角已经微微上扬了对吧？我就知道你会喜欢这份心意的。";
+  } else if (val <= 75) {
+    feedback = "看来你真的挺开心的！能让你笑，就是我做这个网站最大的意义。";
+  } else {
+    feedback = "看来你收到我这个惊喜超级开心呀！开心值已经爆表啦！🥰";
+  }
+
+  // 显示文案，并让面板发光
+  emotionFeedback.innerText = feedback;
+  emotionFeedback.classList.add("show");
+  emotionBox.classList.add("pulse");
+
+  // 延迟进入下一阶段（给用户时间看文案）
+  setTimeout(() => {
+    emotionPanel.classList.remove("show");
+    emotionBox.classList.remove("pulse");
+    setTimeout(() => {
+      quizPanel.classList.add("show");
+      renderQuiz(); 
+    }, 400);
+  }, 3000); // 停留 2 秒看反馈
+};
+
+/* ---------- 阶段2：默契问答逻辑 ---------- */
+let currentQuizIndex = 0;
+function renderQuiz() {
+  if (currentQuizIndex >= CONFIG.quizData.length) {
+    quizPanel.classList.remove("show");
+    hideSkipBtn(); 
+    setTimeout(() => {
+      crashPanel.classList.add("show");
+      startCrashSequence();
+    }, 500);
+    return;
+  }
+  const currentQ = CONFIG.quizData[currentQuizIndex];
+  quizQuestion.innerText = `第 ${currentQuizIndex + 1} 题：${currentQ.question}`;
+  quizOptions.innerHTML = ""; 
+  currentQ.options.forEach(opt => {
+    const btnEl = document.createElement("button");
+    btnEl.className = "quiz-btn"; btnEl.innerText = opt;
+    btnEl.onclick = () => handleQuizAnswer(opt, btnEl);
+    quizOptions.appendChild(btnEl);
+  });
+}
+function handleQuizAnswer(selected, btnEl) {
+  const currentQ = CONFIG.quizData[currentQuizIndex];
+  if (selected === currentQ.answer) {
+    btnEl.style.background = "#4caf50"; btnEl.style.color = "#fff"; btnEl.style.borderColor = "#4caf50";
+    setTimeout(() => { currentQuizIndex++; renderQuiz(); }, 400); 
+  } else {
+    btnEl.classList.add("wrong"); setTimeout(() => btnEl.classList.remove("wrong"), 400);
+  }
+}
+
+/* ---------- 阶段3：逼真静态 404 ---------- */
+function startCrashSequence() {
+  const code = document.getElementById("errorCode");
+  const title = document.getElementById("errorTitle");
+  const msg = document.getElementById("errorMsg");
+  code.innerText = "404"; title.innerText = "PAGE NOT FOUND"; msg.innerText = "404_page_message";
+  code.classList.remove("love"); title.classList.remove("love"); msg.classList.remove("love");
+
+  crashTimers.push(setTimeout(() => {
+    code.innerText = "520"; title.innerText = "LOVE FOUND"; msg.innerText = "逗你的啦，只是某某想你想得死机了 🥰";
+    code.classList.add("love"); title.classList.add("love"); msg.classList.add("love");
+    crashTimers.push(setTimeout(() => {
+      crashPanel.classList.remove("show");
+      crashTimers.push(setTimeout(() => { confirmModal.classList.add("appear"); }, 400));
+    }, 1800));
+  }, 2000));
+}
+
+/* ---------- 打开信件 & 信封互动 ---------- */
 function openLetter(){
   runId++;                 
   document.querySelectorAll(".win").forEach(el => el.remove());
   document.querySelectorAll(".random-float-btn").forEach(el => el.remove());
   confirmModal.classList.remove("appear");
   forceModal.classList.remove("show");
-  hideSkipBtn();
   letterFooter.classList.remove("show");
-  
-  // 重置底部状态
-  loadFullBtnWrap.style.display = "block"; // 显示加载全文按钮
-  surpriseModal.classList.remove("show"); // 确保惊喜弹窗是关着的
+  loadFullBtnWrap.style.display = "block";
+  surpriseModal.classList.remove("show");
+  hideSkipBtn(); 
+
+  envelope.classList.remove("open");
+  document.getElementById("envFlap").classList.remove("open");
+  document.getElementById("envPaper").classList.remove("pull");
+  stampBtn.classList.remove("hide"); stampMark.classList.remove("show");
 
   letterBoxWrap.classList.add("showLetter");
   setTimeout(() => typeWriter(CONFIG.letter), 100);
 }
 
-/* ---------- 打字机 ---------- */
-async function typeWriter(text){
-  const myToken = ++typingToken;
-  typingSkip = false;
-  typingActive = true;
-  typeContent.innerHTML = `<span class="cursor"></span>`;
-  letterGlass.scrollTop = 0;
+function showEnvelope() {
+  confirmModal.classList.remove("appear");
+  forceModal.classList.remove("show"); 
+  document.querySelectorAll(".random-float-btn").forEach(el => el.remove());
+  hideSkipBtn(); 
 
-  for (let i = 0; i < text.length; i++){
-    if (myToken !== typingToken) return;
-    if (typingSkip){
-      typeContent.textContent = text;
-      letterGlass.scrollTop = letterGlass.scrollHeight;
-      typingActive = false;
-      loadFullBtnWrap.style.display = "none"; // 隐藏加载全文按钮
-      letterFooter.classList.add("show");
-      return;
-    }
-    typeContent.innerHTML = text.substring(0, i + 1) + `<span class="cursor"></span>`;
-    letterGlass.scrollTop = letterGlass.scrollHeight;
-    await new Promise(r => setTimeout(r, CONFIG.typeSpeed));
+  envelopeWrap.classList.add("show");
+  envelope.onclick = () => {
+    envelope.classList.add("open");
+    document.getElementById("envFlap").classList.add("open");
+    setTimeout(() => {
+      envelopeWrap.classList.remove("show");
+      setTimeout(() => { openLetter(); }, 300);
+    }, 800);
+  };
+}
+
+/* ---------- 打字机逻辑 ---------- */
+let typeTimer = null;
+let isTyping = false;
+function typeWriter(text){
+  clearTimeout(typeTimer); isTyping = true; let i = 0;
+  typeContent.innerHTML = `<span class="cursor"></span>`; letterGlass.scrollTop = 0;
+  function type() {
+    if (i < text.length) {
+      typeContent.innerHTML = text.substring(0, i + 1) + `<span class="cursor"></span>`;
+      letterGlass.scrollTop = letterGlass.scrollHeight; i++;
+      typeTimer = setTimeout(type, CONFIG.typeSpeed);
+    } else { finishTyping(); }
   }
-
-  if (myToken !== typingToken) return;
-  typeContent.textContent = text;   
-  letterGlass.scrollTop = letterGlass.scrollHeight;
-  typingActive = false;
-  loadFullBtnWrap.style.display = "none"; // 自然打完也隐藏按钮
-  letterFooter.classList.add("show");
+  type();
 }
-function finishTyping(){
-  if (typingActive) typingSkip = true;
+function finishTyping() {
+  clearTimeout(typeTimer); isTyping = false;
+  typeContent.textContent = CONFIG.letter; letterGlass.scrollTop = letterGlass.scrollHeight;
+  loadFullBtnWrap.style.display = "none"; letterFooter.classList.add("show");
 }
 
-/* ---------- 「加载全文」按钮点击事件 ---------- */
-loadFullBtn.onclick = (e) => {
-  e.stopPropagation(); // 阻止事件冒泡到 letterBoxWrap
-  finishTyping();
-};
+/* ---------- 各种点击事件 ---------- */
+loadFullBtn.onclick = (e) => { e.stopPropagation(); if (isTyping) finishTyping(); };
+surpriseBtn.onclick = (e) => { e.stopPropagation(); letterBoxWrap.classList.remove("showLetter"); setTimeout(() => { surpriseModal.classList.add("show"); }, 600); };
 
-/* ---------- 「惊喜」按钮点击事件 ---------- */
-surpriseBtn.onclick = (e) => {
+backToLetterBtn.onclick = (e) => {
   e.stopPropagation();
-  // 1. 先把信件框淡出
-  letterBoxWrap.classList.remove("showLetter");
-  
-  // 2. 等待大概 600ms 后，弹出惊喜弹窗
-  setTimeout(() => {
-    surpriseModal.classList.add("show");
-  }, 600);
+  surpriseModal.classList.remove("show");
+  letterBoxWrap.classList.add("showLetter");
 };
 
-/* ---------- 乱跑按钮 ---------- */
+stampBtn.onclick = (e) => { e.stopPropagation(); stampBtn.classList.add("hide"); stampMark.classList.add("show"); };
+
 function createRandomButton(text){
   document.querySelectorAll(".random-float-btn").forEach(el => el.remove());
-
-  const btnEl = document.createElement("button");
-  btnEl.className = "random-float-btn";
-  btnEl.innerText = text;
-  document.body.appendChild(btnEl);
-
-  const { w, h } = getSize();
-  const bw = btnEl.offsetWidth  || 130;
-  const bh = btnEl.offsetHeight || 44;
-  const marginX = Math.min(160, w * 0.15);
-  const marginY = Math.min(120, h * 0.15);
-  const safeW = Math.max(w - marginX * 2 - bw, 0);
-  const safeH = Math.max(h - marginY * 2 - bh, 0);
-
-  let left, top;
-  const side = Math.floor(Math.random() * 4);
-  if (side === 0){
-    left = marginX + Math.random() * safeW;
-    top  = marginY;
-  } else if (side === 1){
-    left = marginX + Math.random() * safeW;
-    top  = h - marginY - bh;
-  } else if (side === 2){
-    left = marginX;
-    top  = marginY + Math.random() * safeH;
-  } else {
-    left = w - marginX - bw;
-    top  = marginY + Math.random() * safeH;
-  }
-  btnEl.style.left = Math.max(0, left) + "px";
-  btnEl.style.top  = Math.max(0, top)  + "px";
+  const btnEl = document.createElement("button"); btnEl.className = "random-float-btn"; btnEl.innerText = text; document.body.appendChild(btnEl);
+  const { w, h } = getSize(); const bw = btnEl.offsetWidth || 130; const bh = btnEl.offsetHeight || 44;
+  const marginX = Math.min(160, w * 0.15); const marginY = Math.min(120, h * 0.15);
+  const safeW = Math.max(w - marginX * 2 - bw, 0); const safeH = Math.max(h - marginY * 2 - bh, 0);
+  let left, top; const side = Math.floor(Math.random() * 4);
+  if (side === 0){ left = marginX + Math.random() * safeW; top = marginY; } 
+  else if (side === 1){ left = marginX + Math.random() * safeW; top = h - marginY - bh; } 
+  else if (side === 2){ left = marginX; top = marginY + Math.random() * safeH; } 
+  else { left = w - marginX - bw; top = marginY + Math.random() * safeH; }
+  btnEl.style.left = Math.max(0, left) + "px"; btnEl.style.top = Math.max(0, top) + "px";
   return btnEl;
 }
 
-/* ---------- 「选右边的」分支 ---------- */
 btnNo.onclick = () => {
   btnNo.classList.add("hideBtn");
-  const btn1 = createRandomButton("选右边的吧");
+  const btn1 = createRandomButton("求求了选右边吧");
   btn1.onclick = () => {
-    btn1.remove();
-    const btn2 = createRandomButton("真不想看嘛🥺");
+    btn1.remove(); const btn2 = createRandomButton("真不想看嘛🥺");
     btn2.onclick = () => {
-      btn2.remove();
-      confirmModal.classList.remove("appear");
-      fullBoxesGlobal.forEach(b => {
-        b.style.transition = "opacity 1.2s ease";
-        b.style.opacity = "0";
-      });
-      setTimeout(() => {
-        fullBoxesGlobal.forEach(b => b.remove());
-        fullBoxesGlobal = [];
-        forceModal.classList.add("show");
-      }, 1200);
+      btn2.remove(); confirmModal.classList.remove("appear");
+      fullBoxesGlobal.forEach(b => { b.style.transition = "opacity 1.2s ease"; b.style.opacity = "0"; });
+      setTimeout(() => { fullBoxesGlobal.forEach(b => b.remove()); fullBoxesGlobal = []; forceModal.classList.add("show"); }, 1200);
     };
   };
 };
 
-btnYes.onclick = () => openLetter();
-forceOkBtn.onclick = () => openLetter();
+btnYes.onclick = () => showEnvelope();
+forceOkBtn.onclick = () => showEnvelope();
 
-/* ---------- 跳过按钮 ---------- */
+/* ==================== 全局跳过按钮逻辑 ==================== */
 skipBtn.onclick = () => {
-  runId++; 
-  document.querySelectorAll(".win").forEach(el => el.remove());
-  document.querySelectorAll(".random-float-btn").forEach(el => el.remove());
-  hideSkipBtn();
-  confirmModal.classList.add("appear");
-};
-
-/* ---------- 点击信件区域 → 跳过打字 ---------- */
-letterBoxWrap.addEventListener("click", (e) => {
-  if (e.target.closest("#replayBtn") || e.target.closest("#surpriseBtn") || e.target.closest("#loadFullBtn")) return;
-  finishTyping();
-});
-
-/* ---------- 再看一遍 ---------- */
-replayBtn.onclick = (e) => {
-  e.stopPropagation();
   runId++;
+  crashTimers.forEach(clearTimeout);
+  crashTimers = [];
+  clearTimeout(typeTimer);
+  isTyping = false;
+
   document.querySelectorAll(".win").forEach(el => el.remove());
   document.querySelectorAll(".random-float-btn").forEach(el => el.remove());
+
+  document.querySelectorAll('.overlay-panel').forEach(el => el.classList.remove('show'));
   confirmModal.classList.remove("appear");
   forceModal.classList.remove("show");
   letterBoxWrap.classList.remove("showLetter");
-  letterFooter.classList.remove("show");
-  
-  // 重置状态
+  surpriseModal.classList.remove("show");
+  document.body.style.background = "";
+
+  skipModal.classList.add("show");
+};
+
+function jumpTo(step) {
+  skipModal.classList.remove("show");
+  if (step === 'emotion') {
+    // 重置情绪测试状态
+    emotionSlider.value = 0;
+    emotionFeedback.classList.remove("show");
+    emotionBox.classList.remove("pulse");
+    confirmEmotionBtn.style.display = "block";
+    emotionPanel.classList.add("show");
+    showSkipBtn();
+  } else if (step === 'quiz') {
+    currentQuizIndex = 0;
+    quizPanel.classList.add("show");
+    renderQuiz();
+    showSkipBtn();
+  } else if (step === 'envelope') {
+    showEnvelope();
+  }
+}
+
+letterBoxWrap.addEventListener("click", (e) => {
+  if (e.target.closest("#replayBtn") || e.target.closest("#surpriseBtn") || e.target.closest("#loadFullBtn")) return;
+  if (isTyping) finishTyping();
+});
+
+replayBtn.onclick = (e) => {
+  e.stopPropagation(); runId++;
+  document.querySelectorAll(".win").forEach(el => el.remove());
+  document.querySelectorAll(".random-float-btn").forEach(el => el.remove());
+  confirmModal.classList.remove("appear"); forceModal.classList.remove("show");
+  letterBoxWrap.classList.remove("showLetter"); letterFooter.classList.remove("show");
   surpriseModal.classList.remove("show");
   loadFullBtnWrap.style.display = "block";
-
-  btnNo.classList.remove("hideBtn");
-  typeContent.innerHTML = "";
-  typingToken++;
-  hideSkipBtn();
+  btnNo.classList.remove("hideBtn"); typeContent.innerHTML = "";
+  isTyping = false; clearTimeout(typeTimer); hideSkipBtn();
+  stampBtn.classList.remove("hide"); stampMark.classList.remove("show");
+  
+  // 重置所有状态
+  currentQuizIndex = 0; 
+  emotionSlider.value = 0;
+  emotionFeedback.classList.remove("show");
+  emotionBox.classList.remove("pulse");
+  
   setTimeout(() => startAnimation(), 1100);
 };
 
-/* ---------- 输入校验 ---------- */
 let hintTimer = null;
 function showHint(msg){
-  inputHint.textContent = msg;
-  inputHint.classList.add("show");
-  input.classList.add("shake");
+  inputHint.textContent = msg; inputHint.classList.add("show"); inputHint.classList.add("show"); input.classList.add("shake");
   clearTimeout(hintTimer);
-  hintTimer = setTimeout(() => {
-    input.classList.remove("shake");
-    inputHint.classList.remove("show");
-  }, 2200);
+  hintTimer = setTimeout(() => { input.classList.remove("shake"); inputHint.classList.remove("show"); }, 2200);
 }
 
 btn.onclick = () => {
   const value = input.value.trim();
   if (value === CONFIG.loverName){
-    inputHint.classList.remove("show");
-    panel.classList.add("hide");
-    setTimeout(() => {
-      runId++;
-      startAnimation();
-    }, 850);
+    inputHint.classList.remove("show"); panel.classList.add("hide");
+    setTimeout(() => { runId++; startAnimation(); }, 850);
   } else {
     showHint("名字不对哦，再试一次~");
   }
 };
 
-input.onkeydown = (e) => {
-  if (e.key === "Enter") btn.click();
-};
-input.oninput = () => {
-  if (inputHint.classList.contains("show")){
-    inputHint.classList.remove("show");
-    input.classList.remove("shake");
-  }
-};
+input.onkeydown = (e) => { if (e.key === "Enter") btn.click(); };
+input.oninput = () => { if (inputHint.classList.contains("show")){ inputHint.classList.remove("show"); input.classList.remove("shake"); } };
 </script>
 </body>
 </html>
