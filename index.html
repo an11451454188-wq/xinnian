@@ -53,10 +53,10 @@ body{
 .box-title { font-size: 20px; color: #c41e5c; font-weight: bold; margin-bottom: 10px; }
 .box-text { font-size: 15px; color: #882b55; margin-bottom: 20px; line-height: 1.5; }
 
-/* ====== 阶段一：你的开心程度 ====== */
+/* ====== 阶段一：情绪探测仪 ====== */
 .slider-container { padding: 10px 0 25px; position: relative; }
 #emotionSlider { 
-  -webkit-appearance: none; width: 100%; height: 16px;
+  -webkit-appearance: none; appearance: none; width: 100%; height: 16px;
   background: linear-gradient(90deg, #ffd1dc, #ff4d8d); border-radius: 10px; outline: none;
   margin: 15px 0; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); 
 }
@@ -65,9 +65,16 @@ body{
   border-radius: 50%; cursor: pointer; box-shadow: 0 0 15px rgba(255, 77, 141, 0.6), 0 0 5px rgba(255, 77, 141, 0.4); transition: transform 0.1s;
 }
 #emotionSlider::-webkit-slider-thumb:active { transform: scale(1.1); }
+#emotionSlider::-moz-range-thumb {
+  width: 24px; height: 24px; background: #fff; border: 4px solid #ff4d8d;
+  border-radius: 50%; cursor: pointer; box-shadow: 0 0 15px rgba(255, 77, 141, 0.6), 0 0 5px rgba(255, 77, 141, 0.4);
+}
+#emotionSlider::-moz-range-track {
+  height: 16px; background: linear-gradient(90deg, #ffd1dc, #ff4d8d); border-radius: 10px;
+}
 
 /* 刻度数字 */
-.slider-labels { display: flex; justify-content: space-between; padding: 0 10px; font-size: 14px; color: #882b55; font-weight: bold; margin-top: -10px; }
+.slider-labels { display: flex; justify-content: space-between; padding: 0 16px; font-size: 14px; color: #882b55; font-weight: bold; margin-top: -10px; }
 
 /* 确认按钮 */
 #confirmEmotionBtn {
@@ -75,6 +82,7 @@ body{
   font-size: 15px; font-weight: bold; background: linear-gradient(135deg, #ff75a8, #ff4d8d);
   color: #fff; cursor: pointer; box-shadow: 0 4px 12px rgba(255,77,141,0.3); transition: 0.2s;
 }
+#confirmEmotionBtn:hover { filter: brightness(1.05); }
 #confirmEmotionBtn:active { transform: scale(0.95); }
 
 /* 反馈文案容器 */
@@ -89,6 +97,7 @@ body{
   display: block; width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 12px;
   border: 1px solid #ff75a8; background: rgba(255,255,255,0.6); color: #c41e5c; font-size: 16px; cursor: pointer; transition: 0.2s;
 }
+.quiz-btn:hover, .skip-menu-btn:hover { background: rgba(255, 235, 241, 0.9); }
 .quiz-btn:active, .skip-menu-btn:active { transform: scale(0.95); background: #ffebf1; }
 .quiz-btn.wrong { animation: shake 0.4s; border-color: #ff0000; color: #ff0000; background: rgba(255,0,0,0.1); }
 @keyframes shake{ 0%, 100%{ transform: translateX(0); } 20%{ transform: translateX(-8px); } 40%{ transform: translateX(8px); } 60%{ transform: translateX(-6px); } 80%{ transform: translateX(6px); } }
@@ -119,10 +128,11 @@ body{
 #inputHint{ margin-top: 12px; font-size: 14px; color: #c2185b; min-height: 20px; opacity: 0; transition: opacity 0.3s; }
 #inputHint.show{ opacity: 1; }
 #confirmBtn{ margin-top: 20px; width: 140px; height: 44px; border-radius: 22px; border: none; font-size: 17px; font-weight: 500; background: linear-gradient(135deg, #ff75a8, #ff4d8d); color: #fff; cursor: pointer; transition: 0.2s; box-shadow: 0 8px 20px #ff4d8d66; }
+#confirmBtn:hover{ filter: brightness(1.05); }
 #confirmBtn:active{ transform: scale(0.95); }
 
 /* ====== 弹窗与爱心 ====== */
-.win.heart-item, .win.full-item{ position: absolute; width: 110px; height: 60px; border-radius: 10px; box-shadow: 0 0 14px #ffffffaa; display: flex; align-items: center; justify-content: center; text-align: center; padding: 6px; font-size: 11px; font-weight: 400; color: #444444; opacity: 0; transition: opacity 0.55s ease, transform 0.55s ease; line-height: 1.35; z-index: 5; pointer-events: none; }
+.win.heart-item, .win.full-item{ position: absolute; width: 110px; height: 60px; border-radius: 10px; box-shadow: 0 0 14px #ffffffaa; display: flex; align-items: center; justify-content: center; text-align: center; padding: 6px; font-size: 12px; font-weight: 400; color: #444444; opacity: 0; transition: opacity 0.55s ease, transform 0.55s ease; line-height: 1.35; z-index: 5; pointer-events: none; }
 .win.heart-item{ transform: translateY(120vh) scale(0.5); }
 .win.heart-item.show{ opacity: 1; transform: translateY(0) scale(1); }
 .win.heart-item.hide{ opacity: 0; transform: scale(0.6); }
@@ -134,8 +144,9 @@ body{
   position: fixed; top: 16px; z-index: 999; padding: 8px 16px; border-radius: 20px;
   border: 1px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.3);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  color: #a42c5e; font-size: 13px; cursor: pointer; transition: opacity 0.3s ease;
+  color: #a42c5e; font-size: 13px; cursor: pointer; transition: opacity 0.3s ease, background 0.3s ease;
 }
+.floating-btn:hover { background: rgba(255,255,255,0.5); }
 #skipBtn { right: 16px; opacity: 0; pointer-events: none; }
 #skipBtn.show { opacity: 1; pointer-events: auto; }
 #backToLetterBtn { left: 16px; }
@@ -146,10 +157,11 @@ body{
 .modal-text{ text-align: center; font-size: 17px; color: #882b55; margin-bottom: 26px; line-height: 1.6; }
 .btn-row{ display: flex; gap: 16px; justify-content: center; }
 .modal-btn{ padding: 10px 26px; border-radius: 22px; border: none; font-size: 16px; cursor: pointer; transition: all 0.4s ease; }
+.modal-btn:hover { filter: brightness(1.03); }
 #btnNo{ background: #e8e8e8; color: #555; }
 #btnNo.hideBtn{ opacity: 0; pointer-events: none; transform: scale(0.7); }
 #btnYes{ background: linear-gradient(135deg,#ff75a8,#ff4d8d); color: #fff; box-shadow: 0 4px 14px #ff4d8d44; }
-.random-float-btn{ position: fixed; z-index: 35; border: none; border-radius: 24px; padding: 8px 20px; font-size: 15px; cursor: pointer; background: #eeeeee; color: #444; box-shadow: 0 4px 12px #00000022; transition: transform 0.3s ease; }
+.random-float-btn{ position: fixed; z-index: 35; border: none; border-radius: 24px; padding: 8px 20px; font-size: 15px; cursor: pointer; background: #eeeeee; color: #444; box-shadow: 0 4px 12px #00000022; transition: transform 0.3s ease; user-select: none; -webkit-user-select: none; }
 .random-float-btn:active{ transform: scale(0.92); }
 
 #forceModal{ position: fixed; inset: 0; background: rgba(0,0,0,0.25); z-index: 45; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; padding: 20px; }
@@ -157,6 +169,7 @@ body{
 .force-box{ width: min(320px, 90vw); background: rgba(255,255,255,0.24); backdrop-filter: blur(16px) saturate(130%); border-radius: 16px; border: 1px solid rgba(255,255,255,0.4); padding: 30px 24px; text-align: center; }
 .force-text{ font-size: 18px; color: #902b55; margin-bottom: 24px; line-height: 1.7; }
 #forceOkBtn{ border: none; border-radius: 24px; padding: 10px 30px; font-size: 16px; color: white; background: linear-gradient(135deg,#ff75a8,#ff4d8d); box-shadow: 0 4px 14px #ff4d8d44; cursor: pointer; }
+#forceOkBtn:hover { filter: brightness(1.05); }
 
 /* ====== 信封 ====== */
 #envelopeWrap { position: fixed; inset: 0; z-index: 48; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; perspective: 1000px; }
@@ -181,11 +194,14 @@ body{
 @keyframes blink{ 0%, 49%{ opacity: 1; } 50%, 100%{ opacity: 0; } }
 #loadFullBtnWrap { text-align: center; margin-top: 20px; }
 #loadFullBtn, #surpriseBtn { padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.6); background: rgba(255,255,255,0.4); color: #a42c5e; font-size: 13px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(255, 105, 180, 0.2); }
+#loadFullBtn:hover { background: rgba(255,255,255,0.6); }
 #loadFullBtn:active, #surpriseBtn:active { transform: scale(0.95); }
 #surpriseBtn { background: linear-gradient(135deg,#ff75a8,#ff4d8d); color: #fff; border: none; margin-left: 10px; font-weight: bold; }
+#surpriseBtn:hover { filter: brightness(1.05); }
 #letterFooter{ margin-top: 16px; text-align: right; opacity: 0; transform: translateY(6px); transition: opacity 0.5s ease, transform 0.5s ease; pointer-events: none; }
 #letterFooter.show{ opacity: 1; transform: translateY(0); pointer-events: auto; }
 #replayBtn{ padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.32); color: #a42c5e; font-size: 13px; cursor: pointer; }
+#replayBtn:hover { background: rgba(255,255,255,0.55); }
 
 /* ====== 惊喜券 ====== */
 #surpriseModal { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 60; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; padding: 20px; }
@@ -203,6 +219,7 @@ body{
 .coupon-bottom { display: flex; justify-content: space-between; align-items: flex-end; padding: 0 20px 25px; position: relative; }
 .coupon-code { font-size: 12px; color: #b04070; font-family: monospace; }
 .stamp-btn { padding: 8px 16px; background: #ffebf1; border: 1px solid #ff75a8; color: #c41e5c; border-radius: 20px; font-size: 13px; cursor: pointer; transition: all 0.3s ease; }
+.stamp-btn:hover { background: #ffdfe9; }
 .stamp-btn:active { transform: scale(0.9); }
 .stamp-btn.hide { display: none; }
 .stamp-mark { position: absolute; right: 20px; bottom: 20px; width: 90px; height: 90px; border: 3px solid #e63946; border-radius: 50%; color: #e63946; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; transform: scale(2) rotate(-20deg); opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: inset 0 0 10px rgba(230, 57, 70, 0.3); }
@@ -222,7 +239,7 @@ body{
     <div class="coupon-header">✨ 专属惊喜兑换券 ✨</div>
     <div class="coupon-body">
       <div class="coupon-title">潘城，袁语汐喜欢你呀～</div>
-      <div class="coupon-text">给潘城发送这句话<br>可兑换一份神秘惊喜哦！</div>
+      <div class="coupon-text">发送这句话给潘城<br>兑换一份神秘惊喜哦！</div>
     </div>
     <div class="coupon-divider"></div>
     <div class="coupon-bottom">
@@ -241,23 +258,23 @@ body{
   </div>
   <div class="title2">这是专属于你的网站</div>
   <div class="title3">输入你的名字 查收我对你的心意</div>
-  <input id="nameInput" placeholder="只有输入你的名字可以呦" autocomplete="off" />
+  <input id="nameInput" placeholder="只有输入你的名字可以呦" autocomplete="off" aria-label="输入你的名字" />
   <div id="inputHint"></div>
   <button id="confirmBtn">确认</button>
 </div>
 
-<!-- 阶段一：你的开心程度（修改版） -->
+<!-- 阶段一：你的开心程度 -->
 <div id="emotionPanel" class="overlay-panel">
   <div class="glass-box" id="emotionBox">
     <div class="box-title">现在你的开心程度</div>
     <div class="slider-container">
       <input type="range" id="emotionSlider" min="0" max="100" value="0">
       <div class="slider-labels">
-        <span>0</span>
-        <span>10</span>
+        <span>平静</span>
+        <span>开心到爆表</span>
       </div>
     </div>
-    <div id="emotionFeedback"></div>
+    <div id="emotionFeedback" aria-live="polite"></div>
     <button id="confirmEmotionBtn">确认开心值</button>
   </div>
 </div>
@@ -280,14 +297,14 @@ body{
   </div>
 </div>
 
-<!-- 测试用跳转菜单 -->
+<!-- 章节小目录（原快速跳转菜单） -->
 <div id="skipModal" class="overlay-panel">
   <div class="glass-box">
-    <div class="box-title">快速跳转菜单</div>
-    <div class="box-text">当前测试环境，请选择要跳转的环节：</div>
-    <button class="skip-menu-btn" onclick="jumpTo('emotion')">1. 你的开心程度</button>
+    <div class="box-title">章节小目录</div>
+    <div class="box-text">想重温哪一段，点一下就能直接过去啦：</div>
+    <button class="skip-menu-btn" onclick="jumpTo('emotion')">1. 开心程度</button>
     <button class="skip-menu-btn" onclick="jumpTo('quiz')">2. 默契大考验</button>
-    <button class="skip-menu-btn" onclick="jumpTo('envelope')">3. 信封</button>
+    <button class="skip-menu-btn" onclick="jumpTo('envelope')">3. 那封信</button>
   </div>
 </div>
 
@@ -338,28 +355,72 @@ const CONFIG = {
   typeSpeed: 55,                
   letter: `我爱你！
         爱你只有无数次和阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次`,
+  // 52 条祝福：A 组新年底噪 / B 组有你 / C 组我们 / D 组收束
   greetings: [
-    "愿你岁岁平安✨","万事皆能如愿🎆","日子温柔闪光💖","前路万事可期🌟",
-    "平安喜乐常伴🎇","烦恼统统远离🍀","年年胜意欢愉💫","提笔合笔如愿📖",
-    "三餐四季温暖🌷","美好不期而遇🧧","奔赴心中热爱🌠","永远闪闪发光🥰",
-    "眼里盛满星光🌞","脚下皆是坦途🛤️","所得皆是欢喜🍃","一路繁花相伴🌸",
-    "心有繁花盛放🌿","平安无疾如常🕊️","岁月毫无蹉跎🎐","朝朝暮暮幸福💌",
-    "慢慢慢慢发光✨","所愿皆能成真🚩","岁岁常得欢愉🎊","长安宁多喜乐🪐",
-    "生活明朗可爱☁️","快乐时刻满格🥳","心之所向皆往🌌","良辰万事可期🎁",
-    "自在无忧从容🎋","星光奔赴于你🌙","一路向阳温暖☀️","岁岁惦念如初💞",
-    "且喜且乐长久🍵","山海皆可奔赴⛰️","人间日子滚烫🔥","被温柔包围着💖",
-    "好运接踵而来🍂","浪漫永不落幕🌷","欢喜藏于日常🎀","前路清风相伴🍃",
-    "所想皆有回响🔔","岁岁与美好相逢🌙","温柔常驻心底💓","好运一路同行🛤️",
-    "保持满心欢喜🥰","万事顺意无忧🎆","邂逅所有美好✨","岁岁共享浪漫💌",
-    "日子满是甜意🍬","奔赴属于光亮🌟","爱意岁岁绵长💞","潘城爱袁语汐❤️"
+    // A 组 · 新年底噪（12）
+    "新年好呀 🎆",
+    "岁岁都平安 🧧",
+    "万事都胜意 🌟",
+    "平安又喜乐 🎇",
+    "好运连连 🍀",
+    "心想事成 💫",
+    "顺顺利利 🍃",
+    "开开心心 🥳",
+    "健健康康 🌿",
+    "团团圆圆 🏮",
+    "红红火火 🔥",
+    "年年有余 🎐",
+    // B 组 · 有你（20）
+    "愿你今年被好运偏爱 ✨",
+    "你一笑，日子就亮了 ☀️",
+    "新一年，还是想见你 💌",
+    "你值得所有好事发生 🎁",
+    "愿你忙时有序闲时有光 🌙",
+    "你难过的时候我在 🫂",
+    "愿你吃好睡好没烦恼 🍚",
+    "你喜欢的都会奔向你 💞",
+    "愿你今年少熬夜多笑 😴",
+    "你的快乐我负责一半 🥰",
+    "愿你被生活温柔以待 🌷",
+    "你想去的地方我都陪 🏞️",
+    "愿你每天都有小确幸 🍬",
+    "你一皱眉我就心疼 🥺",
+    "愿你今年比去年自在 🕊️",
+    "你的愿望我记在小本本 📒",
+    "愿你抬头是光低头是暖 🌞",
+    "你不用很厉害也很好 💓",
+    "愿你被爱包围被梦照亮 🌌",
+    "你在我这里永远排第一 👑",
+    // C 组 · 我们（18）
+    "今年一起看雪看烟花吧 ❄️",
+    "和你在一起每天是新年 🎊",
+    "我们的每个新年我都记得 📅",
+    "在我身边岁岁都安心 🏡",
+    "明年这时候还要一起 💞",
+    "你负责开心我负责你 🥰",
+    "我们慢慢走得很远很远 🛤️",
+    "有你的日子都值得庆祝 🎉",
+    "今年和你做一百件小事 📝",
+    "你在的地方就是家 🏠",
+    "把日子过成喜欢的样子 🌿",
+    "明年一起倒数跨年 ⏳",
+    "你闹我笑就是最好的年 🧨",
+    "把平凡日子过成诗 📖",
+    "你在我就在 🤝",
+    "每一年都算数 💫",
+    "牵着手过完这一年 🌸",
+    "把明年也过好 🌞",
+    // D 组 · 收束（2）
+    "爱意岁岁绵长 💞",
+    "袁语汐，潘城爱你呦！ ❤️"
   ],
   colors: ["#ffe6ef","#e6f7ff","#fff7d9","#e9ffe9","#f3e8ff","#ffeede"],
 
   quizData: [
     {
       question: "我们是什么时候认识的？",
-      options: ["2026年9月16号", "2026年8月23号", "2026年8月13号"],
-      answer: "2026年8月13号"
+      options: ["2026年09月13号", "2026年08月13号", "2026年08月23号"],
+      answer: "2026年08月13号"
     },
     {
       question: "你送我的第一个玩偶是什么动物？",
@@ -378,6 +439,22 @@ const CONFIG = {
 const texts = CONFIG.greetings;
 const colorList = CONFIG.colors;
 
+// 把文案里的"某某"替换成对方名字（数组里仍保留占位，方便以后改名字）
+function fmtText(s){ return s.replace(/某某/g, CONFIG.loverName); }
+
+/* ==================== 定时器统一管理 ==================== */
+// 所有流程性延迟回调都走 later()，跳过/重播/跳转时统一 clearPending()
+const pendingTimers = new Set();
+function later(fn, ms){
+  const id = setTimeout(() => { pendingTimers.delete(id); fn(); }, ms);
+  pendingTimers.add(id);
+  return id;
+}
+function clearPending(){
+  pendingTimers.forEach(id => clearTimeout(id));
+  pendingTimers.clear();
+}
+
 /* ==================== 星星拖尾特效 ==================== */
 let lastStarTime = 0;
 document.addEventListener("mousemove", createStar);
@@ -387,8 +464,12 @@ function createStar(e) {
   if (now - lastStarTime < 60) return;
   lastStarTime = now;
   let x, y;
-  if (e.type === "touchmove") { x = e.touches[0].clientX; y = e.touches[0].clientY; } 
-  else { x = e.clientX; y = e.clientY; }
+  if (e.type === "touchmove") {
+    if (!e.touches || !e.touches[0]) return;
+    x = e.touches[0].clientX; y = e.touches[0].clientY;
+  } else {
+    x = e.clientX; y = e.clientY;
+  }
   const star = document.createElement("div");
   star.className = "star-trail";
   star.innerText = Math.random() > 0.5 ? "✨" : "⭐";
@@ -438,7 +519,7 @@ function createHeartPopups(points){
   const boxes = [];
   points.forEach((pos, idx) => {
     const div = document.createElement("div"); div.className = "win heart-item";
-    div.innerText = texts[idx % texts.length]; div.style.left = pos.left + "px"; div.style.top = pos.top + "px"; div.style.background = colorList[idx % colorList.length];
+    div.innerText = fmtText(texts[idx % texts.length]); div.style.left = pos.left + "px"; div.style.top = pos.top + "px"; div.style.background = colorList[idx % colorList.length];
     document.body.appendChild(div); boxes.push(div);
   });
   return boxes;
@@ -447,7 +528,7 @@ function createFullPopups(points){
   const boxes = [];
   points.forEach((pos, idx) => {
     const div = document.createElement("div"); div.className = "win full-item";
-    div.innerText = texts[idx % texts.length]; div.style.left = pos.left + "px"; div.style.top = pos.top + "px"; div.style.background = colorList[idx % colorList.length];
+    div.innerText = fmtText(texts[idx % texts.length]); div.style.left = pos.left + "px"; div.style.top = pos.top + "px"; div.style.background = colorList[idx % colorList.length];
     document.body.appendChild(div); boxes.push(div);
   });
   return boxes;
@@ -496,7 +577,6 @@ pageTitle.textContent = CONFIG.pageTitle;
 let runId = 0;          
 let typingToken = 0;
 let fullBoxesGlobal = [];
-let crashTimers = []; 
 
 function showSkipBtn(){ skipBtn.classList.add("show"); }
 function hideSkipBtn(){ skipBtn.classList.remove("show"); }
@@ -508,15 +588,15 @@ function startAnimation(){
   const heartBoxes = createHeartPopups(heartPoints);
   const popInterval = 90;
   heartBoxes.forEach((box, idx) => {
-    setTimeout(() => { if (rid !== runId) return; box.classList.add("show"); }, idx * popInterval);
+    later(() => { if (rid !== runId) return; box.classList.add("show"); }, idx * popInterval);
   });
   const finishTime = (heartBoxes.length - 1) * popInterval;
-  setTimeout(() => {
+  later(() => {
     if (rid !== runId) return;
-    setTimeout(() => {
+    later(() => {
       if (rid !== runId) return;
       heartBoxes.forEach(b => b.classList.add("hide"));
-      setTimeout(() => {
+      later(() => {
         if (rid !== runId) return;
         heartBoxes.forEach(b => b.remove());
         startFullScreen();
@@ -527,19 +607,24 @@ function startAnimation(){
 
 /* ---------- 阶段0.5：满屏弹窗 ---------- */
 function startFullScreen(){
-  const rid = runId; const total = 131; const interval = 4000 / total;
+  const rid = runId;
+  // 清理上一轮可能残留的弹窗
+  document.querySelectorAll(".win.full-item").forEach(el => el.remove());
+  fullBoxesGlobal = [];
+
+  const total = 131; const interval = 4000 / total;
   const randomPoints = getRandomPoints(total);
   fullBoxesGlobal = createFullPopups(randomPoints);
   fullBoxesGlobal.forEach((box, idx) => {
-    setTimeout(() => { if (rid !== runId) return; box.classList.add("show"); }, idx * interval);
+    later(() => { if (rid !== runId) return; box.classList.add("show"); }, idx * interval);
   });
   const allFullEnd = (total - 1) * interval;
-  setTimeout(() => {
+  later(() => {
     if (rid !== runId) return;
-    setTimeout(() => {
+    later(() => {
       if (rid !== runId) return;
       fullBoxesGlobal.forEach(b => { b.style.transition = "opacity 1.2s ease"; b.style.opacity = "0"; });
-      setTimeout(() => {
+      later(() => {
         if (rid !== runId) return;
         fullBoxesGlobal.forEach(b => b.remove());
         fullBoxesGlobal = [];
@@ -551,37 +636,36 @@ function startFullScreen(){
   }, allFullEnd);
 }
 
-/* ==================== 阶段1：你的开心程度逻辑（修改版） ==================== */
-// 移除原来的自动判定，改为点击按钮触发
+/* ==================== 阶段1：你的开心程度逻辑 ==================== */
 confirmEmotionBtn.onclick = () => {
   const val = parseInt(emotionSlider.value);
   let feedback = "";
 
-  // 根据区间给出不同的反馈文案
   if (val <= 25) {
     feedback = "看来你现在心情很平静呢，是我新年祝福准备的不够好吗🥺";
   } else if (val <= 50) {
-    feedback = "嘴角已经微微上扬了对吧？我就知道你会喜欢这份心意的😁";
+    feedback = "嘴角已经微微上扬了对吧？我就知道你会喜欢这份心意的。😁";
   } else if (val <= 75) {
-    feedback = "看来你真的挺开心的！能让你笑，就是我做这个网站最大的意义！😆";
+    feedback = "看来你真的挺开心的！能让你笑，就是我做这个网站最大的意义。😆";
   } else {
     feedback = "看来你收到我这个惊喜超级开心呀！开心值已经爆表啦！🥰";
   }
 
-  // 显示文案，并让面板发光
   emotionFeedback.innerText = feedback;
   emotionFeedback.classList.add("show");
   emotionBox.classList.add("pulse");
 
-  // 延迟进入下一阶段（给用户时间看文案）
-  setTimeout(() => {
+  const rid = runId;
+  later(() => {
+    if (rid !== runId) return;
     emotionPanel.classList.remove("show");
     emotionBox.classList.remove("pulse");
-    setTimeout(() => {
+    later(() => {
+      if (rid !== runId) return;
       quizPanel.classList.add("show");
       renderQuiz(); 
     }, 400);
-  }, 3000); // 停留 3 秒看反馈
+  }, 3000);
 };
 
 /* ---------- 阶段2：默契问答逻辑 ---------- */
@@ -590,7 +674,9 @@ function renderQuiz() {
   if (currentQuizIndex >= CONFIG.quizData.length) {
     quizPanel.classList.remove("show");
     hideSkipBtn(); 
-    setTimeout(() => {
+    const rid = runId;
+    later(() => {
+      if (rid !== runId) return;
       crashPanel.classList.add("show");
       startCrashSequence();
     }, 500);
@@ -610,9 +696,14 @@ function handleQuizAnswer(selected, btnEl) {
   const currentQ = CONFIG.quizData[currentQuizIndex];
   if (selected === currentQ.answer) {
     btnEl.style.background = "#4caf50"; btnEl.style.color = "#fff"; btnEl.style.borderColor = "#4caf50";
-    setTimeout(() => { currentQuizIndex++; renderQuiz(); }, 400); 
+    const rid = runId;
+    later(() => {
+      if (rid !== runId) return;
+      currentQuizIndex++; renderQuiz();
+    }, 400); 
   } else {
-    btnEl.classList.add("wrong"); setTimeout(() => btnEl.classList.remove("wrong"), 400);
+    btnEl.classList.add("wrong"); 
+    later(() => btnEl.classList.remove("wrong"), 400);
   }
 }
 
@@ -624,14 +715,20 @@ function startCrashSequence() {
   code.innerText = "404"; title.innerText = "PAGE NOT FOUND"; msg.innerText = "404_page_message";
   code.classList.remove("love"); title.classList.remove("love"); msg.classList.remove("love");
 
-  crashTimers.push(setTimeout(() => {
+  const rid = runId;
+  later(() => {
+    if (rid !== runId) return;
     code.innerText = "520"; title.innerText = "LOVE FOUND"; msg.innerText = "逗你的啦，只是潘城想你想得死机了 🥰";
     code.classList.add("love"); title.classList.add("love"); msg.classList.add("love");
-    crashTimers.push(setTimeout(() => {
+    later(() => {
+      if (rid !== runId) return;
       crashPanel.classList.remove("show");
-      crashTimers.push(setTimeout(() => { confirmModal.classList.add("appear"); }, 400));
-    }, 2500));
-  }, 4500));
+      later(() => { 
+        if (rid !== runId) return;
+        confirmModal.classList.add("appear"); 
+      }, 400);
+    }, 2400);
+  }, 4200);
 }
 
 /* ---------- 打开信件 & 信封互动 ---------- */
@@ -639,6 +736,7 @@ function openLetter(){
   runId++;                 
   document.querySelectorAll(".win").forEach(el => el.remove());
   document.querySelectorAll(".random-float-btn").forEach(el => el.remove());
+  fullBoxesGlobal = [];
   confirmModal.classList.remove("appear");
   forceModal.classList.remove("show");
   letterFooter.classList.remove("show");
@@ -646,13 +744,15 @@ function openLetter(){
   surpriseModal.classList.remove("show");
   hideSkipBtn(); 
 
+  // 重置信封状态
+  envelope.style.pointerEvents = "";
   envelope.classList.remove("open");
   document.getElementById("envFlap").classList.remove("open");
   document.getElementById("envPaper").classList.remove("pull");
   stampBtn.classList.remove("hide"); stampMark.classList.remove("show");
 
   letterBoxWrap.classList.add("showLetter");
-  setTimeout(() => typeWriter(CONFIG.letter), 100);
+  later(() => typeWriter(CONFIG.letter), 100);
 }
 
 function showEnvelope() {
@@ -661,13 +761,21 @@ function showEnvelope() {
   document.querySelectorAll(".random-float-btn").forEach(el => el.remove());
   hideSkipBtn(); 
 
+  // 重置信封
+  envelope.style.pointerEvents = "";
+  envelope.classList.remove("open");
+  document.getElementById("envFlap").classList.remove("open");
+  document.getElementById("envPaper").classList.remove("pull");
+
   envelopeWrap.classList.add("show");
   envelope.onclick = () => {
+    if (envelope.classList.contains("open")) return;
+    envelope.style.pointerEvents = "none";   // 防连点
     envelope.classList.add("open");
     document.getElementById("envFlap").classList.add("open");
-    setTimeout(() => {
+    later(() => {
       envelopeWrap.classList.remove("show");
-      setTimeout(() => { openLetter(); }, 300);
+      later(() => { openLetter(); }, 300);
     }, 800);
   };
 }
@@ -695,7 +803,7 @@ function finishTyping() {
 
 /* ---------- 各种点击事件 ---------- */
 loadFullBtn.onclick = (e) => { e.stopPropagation(); if (isTyping) finishTyping(); };
-surpriseBtn.onclick = (e) => { e.stopPropagation(); letterBoxWrap.classList.remove("showLetter"); setTimeout(() => { surpriseModal.classList.add("show"); }, 600); };
+surpriseBtn.onclick = (e) => { e.stopPropagation(); letterBoxWrap.classList.remove("showLetter"); later(() => { surpriseModal.classList.add("show"); }, 600); };
 
 backToLetterBtn.onclick = (e) => {
   e.stopPropagation();
@@ -724,11 +832,17 @@ btnNo.onclick = () => {
   btnNo.classList.add("hideBtn");
   const btn1 = createRandomButton("求求了选右边吧");
   btn1.onclick = () => {
+    if (!btn1.isConnected) return;
     btn1.remove(); const btn2 = createRandomButton("真不想看嘛🥺");
     btn2.onclick = () => {
+      if (!btn2.isConnected) return;
       btn2.remove(); confirmModal.classList.remove("appear");
       fullBoxesGlobal.forEach(b => { b.style.transition = "opacity 1.2s ease"; b.style.opacity = "0"; });
-      setTimeout(() => { fullBoxesGlobal.forEach(b => b.remove()); fullBoxesGlobal = []; forceModal.classList.add("show"); }, 1200);
+      later(() => { 
+        fullBoxesGlobal.forEach(b => b.remove()); 
+        fullBoxesGlobal = []; 
+        forceModal.classList.add("show"); 
+      }, 1200);
     };
   };
 };
@@ -739,13 +853,13 @@ forceOkBtn.onclick = () => showEnvelope();
 /* ==================== 全局跳过按钮逻辑 ==================== */
 skipBtn.onclick = () => {
   runId++;
-  crashTimers.forEach(clearTimeout);
-  crashTimers = [];
+  clearPending();
   clearTimeout(typeTimer);
   isTyping = false;
 
   document.querySelectorAll(".win").forEach(el => el.remove());
   document.querySelectorAll(".random-float-btn").forEach(el => el.remove());
+  fullBoxesGlobal = [];
 
   document.querySelectorAll('.overlay-panel').forEach(el => el.classList.remove('show'));
   confirmModal.classList.remove("appear");
@@ -758,9 +872,11 @@ skipBtn.onclick = () => {
 };
 
 function jumpTo(step) {
+  clearPending();
+  clearTimeout(typeTimer);
+  isTyping = false;
   skipModal.classList.remove("show");
   if (step === 'emotion') {
-    // 重置你的开心程度状态
     emotionSlider.value = 0;
     emotionFeedback.classList.remove("show");
     emotionBox.classList.remove("pulse");
@@ -774,6 +890,7 @@ function jumpTo(step) {
     showSkipBtn();
   } else if (step === 'envelope') {
     showEnvelope();
+    hideSkipBtn();
   }
 }
 
@@ -783,38 +900,50 @@ letterBoxWrap.addEventListener("click", (e) => {
 });
 
 replayBtn.onclick = (e) => {
-  e.stopPropagation(); runId++;
+  e.stopPropagation(); 
+  runId++;
+  clearPending();
+  clearTimeout(typeTimer);
   document.querySelectorAll(".win").forEach(el => el.remove());
   document.querySelectorAll(".random-float-btn").forEach(el => el.remove());
+  fullBoxesGlobal = [];
   confirmModal.classList.remove("appear"); forceModal.classList.remove("show");
   letterBoxWrap.classList.remove("showLetter"); letterFooter.classList.remove("show");
   surpriseModal.classList.remove("show");
   loadFullBtnWrap.style.display = "block";
   btnNo.classList.remove("hideBtn"); typeContent.innerHTML = "";
-  isTyping = false; clearTimeout(typeTimer); hideSkipBtn();
+  isTyping = false; hideSkipBtn();
   stampBtn.classList.remove("hide"); stampMark.classList.remove("show");
   
-  // 重置所有状态
   currentQuizIndex = 0; 
   emotionSlider.value = 0;
   emotionFeedback.classList.remove("show");
   emotionBox.classList.remove("pulse");
   
-  setTimeout(() => startAnimation(), 1100);
+  const rid = runId;
+  later(() => {
+    if (rid !== runId) return;
+    startAnimation();
+  }, 1100);
 };
 
 let hintTimer = null;
 function showHint(msg){
-  inputHint.textContent = msg; inputHint.classList.add("show"); inputHint.classList.add("show"); input.classList.add("shake");
+  inputHint.textContent = msg; inputHint.classList.add("show"); input.classList.add("shake");
   clearTimeout(hintTimer);
   hintTimer = setTimeout(() => { input.classList.remove("shake"); inputHint.classList.remove("show"); }, 2200);
 }
 
 btn.onclick = () => {
+  if (panel.classList.contains("hide")) return;  // 防重复点击
   const value = input.value.trim();
   if (value === CONFIG.loverName){
     inputHint.classList.remove("show"); panel.classList.add("hide");
-    setTimeout(() => { runId++; startAnimation(); }, 850);
+    const rid = runId;
+    later(() => {
+      if (rid !== runId) return;
+      runId++; startAnimation();
+    }, 850);
   } else {
     showHint("名字不对哦，再试一次~");
   }
