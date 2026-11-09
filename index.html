@@ -30,8 +30,8 @@ body{
   animation: starFade 1s ease-out forwards;
 }
 @keyframes starFade {
-  0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(30px) scale(0.2) rotate(180deg); opacity: 0; }
+  0% { transform: translate(-50%, -50%) translateY(0) scale(1) rotate(0deg); opacity: 1; }
+  100% { transform: translate(-50%, -50%) translateY(30px) scale(0.2) rotate(180deg); opacity: 0; }
 }
 
 #heartsBg{ position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
@@ -53,6 +53,48 @@ body{
 .box-title { font-size: 20px; color: #c41e5c; font-weight: bold; margin-bottom: 10px; }
 .box-text { font-size: 15px; color: #882b55; margin-bottom: 20px; line-height: 1.5; }
 
+/* ====== 中心大弹窗 ====== */
+#grandModal {
+  z-index: 50;
+  background: rgba(0,0,0,0.1); 
+}
+.grand-box {
+  width: min(320px, 85vw);
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 45px 25px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(255, 80, 140, 0.35), 0 0 0 10px rgba(255, 255, 255, 0.3);
+  transform: scale(0.1);
+  opacity: 0;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+  cursor: pointer;
+}
+#grandModal.show .grand-box {
+  transform: scale(1);
+  opacity: 1;
+}
+.grand-title {
+  font-size: 32px;
+  font-weight: 900;
+  color: #c41e5c;
+  letter-spacing: 4px;
+  margin-bottom: 15px;
+  text-shadow: 0 2px 10px rgba(255, 77, 141, 0.2);
+}
+.grand-subtitle {
+  font-size: 16px;
+  color: #882b55;
+  font-weight: 500;
+  line-height: 1.6;
+}
+.grand-hint {
+  margin-top: 25px;
+  font-size: 13px;
+  color: #ff75a8;
+  animation: blink 1.5s infinite;
+}
+
 /* ====== 阶段一：情绪探测仪 ====== */
 .slider-container { padding: 10px 0 25px; position: relative; }
 #emotionSlider { 
@@ -73,24 +115,21 @@ body{
   height: 16px; background: linear-gradient(90deg, #ffd1dc, #ff4d8d); border-radius: 10px;
 }
 
-/* 刻度数字 */
 .slider-labels { display: flex; justify-content: space-between; padding: 0 16px; font-size: 14px; color: #882b55; font-weight: bold; margin-top: -10px; }
-
-/* 确认按钮 */
-#confirmEmotionBtn {
-  margin-top: 15px; width: 120px; height: 40px; border-radius: 20px; border: none;
-  font-size: 15px; font-weight: bold; background: linear-gradient(135deg, #ff75a8, #ff4d8d);
-  color: #fff; cursor: pointer; box-shadow: 0 4px 12px rgba(255,77,141,0.3); transition: 0.2s;
-}
-#confirmEmotionBtn:hover { filter: brightness(1.05); }
-#confirmEmotionBtn:active { transform: scale(0.95); }
-
-/* 反馈文案容器 */
 #emotionFeedback {
-  margin-top: 15px; font-size: 15px; color: #c41e5c; font-weight: bold; min-height: 40px;
-  opacity: 0; transform: translateY(10px); transition: all 0.3s ease;
+  margin-top: 15px; margin-bottom: 20px; font-size: 16px; color: #c41e5c; font-weight: bold; min-height: 50px;
+  opacity: 0; transform: translateY(10px); transition: all 0.3s ease; line-height: 1.6; padding: 0 10px;
 }
 #emotionFeedback.show { opacity: 1; transform: translateY(0); }
+
+.action-btn {
+  width: 100%; height: 44px; border-radius: 22px; border: none; font-size: 16px; font-weight: bold; 
+  background: linear-gradient(135deg, #ff75a8, #ff4d8d); color: #fff; cursor: pointer; 
+  box-shadow: 0 4px 12px rgba(255,77,141,0.3); transition: 0.2s; padding: 0 15px;
+}
+.action-btn:hover { filter: brightness(1.05); }
+.action-btn:active { transform: scale(0.95); }
+#claimSurpriseBtn { display: none; } 
 
 /* ====== 阶段二：默契大考验 ====== */
 .quiz-btn, .skip-menu-btn {
@@ -132,12 +171,18 @@ body{
 #confirmBtn:active{ transform: scale(0.95); }
 
 /* ====== 弹窗与爱心 ====== */
-.win.heart-item, .win.full-item{ position: absolute; width: 110px; height: 60px; border-radius: 10px; box-shadow: 0 0 14px #ffffffaa; display: flex; align-items: center; justify-content: center; text-align: center; padding: 6px; font-size: 12px; font-weight: 400; color: #444444; opacity: 0; transition: opacity 0.55s ease, transform 0.55s ease; line-height: 1.35; z-index: 5; pointer-events: none; }
+.win.heart-item, .win.full-item{ position: absolute; width: 110px; height: 60px; border-radius: 10px; box-shadow: 0 0 14px #ffffffaa; display: flex; align-items: center; justify-content: center; text-align: center; padding: 6px; font-size: 12px; font-weight: 400; color: #444444; opacity: 0; transition: all 0.55s ease; line-height: 1.35; z-index: 5; pointer-events: none; }
 .win.heart-item{ transform: translateY(120vh) scale(0.5); }
 .win.heart-item.show{ opacity: 1; transform: translateY(0) scale(1); }
 .win.heart-item.hide{ opacity: 0; transform: scale(0.6); }
 .win.full-item{ transform: scale(0.5); }
 .win.full-item.show{ opacity: 1; transform: scale(1); }
+
+/* 满屏弹幕缓慢淡出并消失特效 */
+.win.full-item.zoom-out {
+  opacity: 0 !important; 
+  transition: all 1.5s ease; /* 1.5s 缓慢淡出 */
+}
 
 /* ====== 悬浮按钮通用样式 ====== */
 .floating-btn {
@@ -232,18 +277,26 @@ body{
 
 <button id="skipBtn" class="floating-btn">跳过 ≫</button>
 
+<!-- 中心大弹窗 -->
+<div id="grandModal" class="overlay-panel">
+  <div class="grand-box">
+    <div class="grand-title">新年快乐 ♡</div>
+    <div class="grand-subtitle" id="grandSubtitle">祝袁语汐天天开心，身体健康</div>
+    <div class="grand-hint">👆 点击任意位置继续</div>
+  </div>
+</div>
+
 <div id="surpriseModal">
   <button id="backToLetterBtn" class="floating-btn">← 返回信件</button>
-  
   <div class="coupon-card">
     <div class="coupon-header">✨ 专属惊喜兑换券 ✨</div>
     <div class="coupon-body">
-      <div class="coupon-title">潘城，袁语汐喜欢你呀～</div>
-      <div class="coupon-text">发送这句话给潘城<br>兑换一份神秘惊喜哦！</div>
+      <div class="coupon-title">潘城，袁语汐爱你呦～</div>
+      <div class="coupon-text">发送这句话给潘城可<br>兑换一份神秘惊喜哦！</div>
     </div>
     <div class="coupon-divider"></div>
     <div class="coupon-bottom">
-      <div class="coupon-code">NO. 2027-520-1314</div>
+      <div class="coupon-code">NO. 2024-520-1314</div>
       <button class="stamp-btn" id="stampBtn">点击盖章生效</button>
       <div class="stamp-mark" id="stampMark">
         <div>袁语汐专属</div>
@@ -263,7 +316,6 @@ body{
   <button id="confirmBtn">确认</button>
 </div>
 
-<!-- 阶段一：你的开心程度 -->
 <div id="emotionPanel" class="overlay-panel">
   <div class="glass-box" id="emotionBox">
     <div class="box-title">现在你的开心程度</div>
@@ -274,12 +326,14 @@ body{
         <span>开心到爆表</span>
       </div>
     </div>
+    
     <div id="emotionFeedback" aria-live="polite"></div>
-    <button id="confirmEmotionBtn">确认开心值</button>
+    
+    <button id="confirmEmotionBtn" class="action-btn">确认开心值</button>
+    <button id="claimSurpriseBtn" class="action-btn">领取惊喜</button>
   </div>
 </div>
 
-<!-- 阶段二：默契大考验 -->
 <div id="quizPanel" class="overlay-panel">
   <div class="glass-box">
     <div class="box-title">默契大考验</div>
@@ -288,7 +342,6 @@ body{
   </div>
 </div>
 
-<!-- 阶段三：逼真静态 404 -->
 <div id="crashPanel" class="overlay-panel">
   <div class="error-page">
     <h1 class="error-code" id="errorCode">404</h1>
@@ -297,14 +350,13 @@ body{
   </div>
 </div>
 
-<!-- 章节小目录（原快速跳转菜单） -->
 <div id="skipModal" class="overlay-panel">
   <div class="glass-box">
     <div class="box-title">章节小目录</div>
     <div class="box-text">想重温哪一段，点一下就能直接过去啦：</div>
-    <button class="skip-menu-btn" onclick="jumpTo('emotion')">1. 开心程度</button>
-    <button class="skip-menu-btn" onclick="jumpTo('quiz')">2. 默契大考验</button>
-    <button class="skip-menu-btn" onclick="jumpTo('envelope')">3. 那封信</button>
+    <button class="skip-menu-btn" data-jump="quiz">1. 默契大考验</button>
+    <button class="skip-menu-btn" data-jump="envelope">2. 那封信</button>
+    <button class="skip-menu-btn" data-jump="emotion">3. 开心程度与惊喜</button>
   </div>
 </div>
 
@@ -320,7 +372,7 @@ body{
 
 <div id="forceModal">
   <div class="force-box">
-    <div class="force-text">嘻嘻 我要强制爱<br>你必须读哦</div>
+    <div class="force-text">嘻嘻 我要强制爱哦<br>你必须读哦</div>
     <button id="forceOkBtn">知道啦</button>
   </div>
 </div>
@@ -330,7 +382,7 @@ body{
     <div class="env-paper" id="envPaper"></div>
     <div class="env-flap" id="envFlap"></div>
     <div class="env-stamp">To: 袁语汐</div>
-    <div class="env-hint">👆 点击信封打开</div>
+    <div class="env-hint">👇 点击信封打开</div>
   </div>
 </div>
 
@@ -342,7 +394,7 @@ body{
     </div>
     <div id="letterFooter">
       <button id="replayBtn">再看一遍</button>
-      <button id="surpriseBtn">点击此处有惊喜</button>
+      <button id="surpriseBtn">开心程度反馈</button>
     </div>
   </div>
 </div>
@@ -353,97 +405,33 @@ const CONFIG = {
   loverName: "袁语汐",            
   pageTitle: "祝袁语汐新年快乐",  
   typeSpeed: 55,                
+  enableSkip: true, 
+
   letter: `我爱你！
         爱你只有无数次和阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次阿帕次`,
-  // 52 条祝福：A 组新年底噪 / B 组有你 / C 组我们 / D 组收束
   greetings: [
-    // A 组 · 新年底噪（12）
-    "新年好呀 🎆",
-    "岁岁都平安 🧧",
-    "万事都胜意 🌟",
-    "平安又喜乐 🎇",
-    "好运连连 🍀",
-    "心想事成 💫",
-    "顺顺利利 🍃",
-    "开开心心 🥳",
-    "健健康康 🌿",
-    "团团圆圆 🏮",
-    "红红火火 🔥",
-    "年年有余 🎐",
-    // B 组 · 有你（20）
-    "愿你今年被好运偏爱 ✨",
-    "你一笑，日子就亮了 ☀️",
-    "新一年，还是想见你 💌",
-    "你值得所有好事发生 🎁",
-    "愿你忙时有序闲时有光 🌙",
-    "你难过的时候我在 🫂",
-    "愿你吃好睡好没烦恼 🍚",
-    "你喜欢的都会奔向你 💞",
-    "愿你今年少熬夜多笑 😴",
-    "你的快乐我负责一半 🥰",
-    "愿你被生活温柔以待 🌷",
-    "你想去的地方我都陪 🏞️",
-    "愿你每天都有小确幸 🍬",
-    "你一皱眉我就心疼 🥺",
-    "愿你今年比去年自在 🕊️",
-    "你的愿望我记在小本本 📒",
-    "愿你抬头是光低头是暖 🌞",
-    "你不用很厉害也很好 💓",
-    "愿你被爱包围被梦照亮 🌌",
-    "你在我这里永远排第一 👑",
-    // C 组 · 我们（18）
-    "今年一起看雪看烟花吧 ❄️",
-    "和你在一起每天是新年 🎊",
-    "我们的每个新年我都记得 📅",
-    "在我身边岁岁都安心 🏡",
-    "明年这时候还要一起 💞",
-    "你负责开心我负责你 🥰",
-    "我们慢慢走得很远很远 🛤️",
-    "有你的日子都值得庆祝 🎉",
-    "今年和你做一百件小事 📝",
-    "你在的地方就是家 🏠",
-    "把日子过成喜欢的样子 🌿",
-    "明年一起倒数跨年 ⏳",
-    "你闹我笑就是最好的年 🧨",
-    "把平凡日子过成诗 📖",
-    "你在我就在 🤝",
-    "每一年都算数 💫",
-    "牵着手过完这一年 🌸",
-    "把明年也过好 🌞",
-    // D 组 · 收束（2）
-    "爱意岁岁绵长 💞",
-    "袁语汐，潘城爱你呦！ ❤️"
+    "新年好呀 🎆", "岁岁都平安 🧧", "万事都胜意 🌟", "平安又喜乐 🎇", "好运连连 🍀", "心想事成 💫", "顺顺利利 🍃", "开开心心 🥳", "健健康康 🌿", "团团圆圆 🏮", "红红火火 🔥", "年年有余 🎐",
+    "愿你今年被好运偏爱 ✨", "你一笑，日子就亮了 ☀️", "新一年，还是想见你 💌", "你值得所有好事发生 🎁", "愿你忙时有序闲时有光 🌙", "你难过的时候我在 🫂", "愿你吃好睡好没烦恼 🍚", "你喜欢的都会奔向你 💞", "愿你今年少熬夜多笑 😴", "你的快乐我负责一半 🥰", "愿你被生活温柔以待 🌷", "你想去的地方我都陪 🏞️", "愿你每天都有小确幸 🍬", "你一皱眉我就心疼 🥺", "愿你今年比去年自在 🕊️", "你的愿望我记在小本本 📒", "愿你抬头是光低头是暖 🌞", "你不用很厉害也很好 💓", "愿你被爱包围被梦照亮 🌌", "你在我这里永远排第一 👑",
+    "今年一起看雪看烟花吧 ❄️", "和你在一起每天是新年 🎊", "我们的每个新年我都记得 📅", "在我身边岁岁都安心 🏡", "明年这时候还要一起 💞", "你负责开心我负责你 🥰", "我们慢慢走得很远很远 🛤️", "有你的日子都值得庆祝 🎉", "今年和你做一百件小事 📝", "你在的地方就是家 🏠", "把日子过成喜欢的样子 🌿", "明年一起倒数跨年 ⏳", "你闹我笑就是最好的年 🧨", "把平凡日子过成诗 📖", "你在我就在 🤝", "每一年都算数 💫", "牵着手过完这一年 🌸", "把明年也过好 🌞",
+    "爱意岁岁绵长 💞", "袁语汐，我爱你 ❤️"
   ],
   colors: ["#ffe6ef","#e6f7ff","#fff7d9","#e9ffe9","#f3e8ff","#ffeede"],
 
   quizData: [
-    {
-      question: "我们是什么时候认识的？",
-      options: ["2026年09月13号", "2026年08月13号", "2026年08月23号"],
-      answer: "2026年08月13号"
-    },
-    {
-      question: "你送我的第一个玩偶是什么动物？",
-      options: ["小熊", "兔子", "坤"],
-      answer: "坤"
-    },
-    {
-      question: "我送你的第一个礼物是什么？",
-      options: ["围巾", "手套", "香水"],
-      answer: "围巾"
-    }
+    { question: "我们是什么时候认识的？", options: ["2025年12月31号", "2026年8月23号", "2026年8月13号"], answer: "2026年9月13号" },
+    { question: "你送我的第一个玩偶是什么动物？", options: ["小熊", "兔子", "坤"], answer: "坤" },
+    { question: "我送你的第一个礼物是什么？", options: ["围巾", "手套", "香水"], answer: "围巾" }
   ]
 };
 /* ================================================== */
 
 const texts = CONFIG.greetings;
 const colorList = CONFIG.colors;
+function fmtText(s){ return s.replace(/袁语汐/g, CONFIG.loverName); }
 
-// 把文案里的"某某"替换成对方名字（数组里仍保留占位，方便以后改名字）
-function fmtText(s){ return s.replace(/某某/g, CONFIG.loverName); }
+/* 动态替换大弹窗副标题的名字 */
+document.getElementById("grandSubtitle").innerText = `祝${CONFIG.loverName}天天开心，身体健康`;
 
-/* ==================== 定时器统一管理 ==================== */
-// 所有流程性延迟回调都走 later()，跳过/重播/跳转时统一 clearPending()
 const pendingTimers = new Set();
 function later(fn, ms){
   const id = setTimeout(() => { pendingTimers.delete(id); fn(); }, ms);
@@ -455,7 +443,7 @@ function clearPending(){
   pendingTimers.clear();
 }
 
-/* ==================== 星星拖尾特效 ==================== */
+/* ==================== 星星拖尾 ==================== */
 let lastStarTime = 0;
 document.addEventListener("mousemove", createStar);
 document.addEventListener("touchmove", createStar, { passive: true });
@@ -467,14 +455,11 @@ function createStar(e) {
   if (e.type === "touchmove") {
     if (!e.touches || !e.touches[0]) return;
     x = e.touches[0].clientX; y = e.touches[0].clientY;
-  } else {
-    x = e.clientX; y = e.clientY;
-  }
+  } else { x = e.clientX; y = e.clientY; }
   const star = document.createElement("div");
-  star.className = "star-trail";
-  star.innerText = Math.random() > 0.5 ? "✨" : "⭐";
-  star.style.left = x + "px"; star.style.top = y + "px";
-  star.style.transform = `translate(-50%, -50%) translate(${(Math.random()-0.5)*20}px, ${(Math.random()-0.5)*20}px)`;
+  star.className = "star-trail"; star.innerText = Math.random() > 0.5 ? "✨" : "⭐";
+  star.style.left = (x + (Math.random() - 0.5) * 20) + "px";
+  star.style.top  = (y + (Math.random() - 0.5) * 20) + "px";
   document.body.appendChild(star);
   setTimeout(() => star.remove(), 1000);
 }
@@ -493,10 +478,9 @@ const heartsBg = document.getElementById("heartsBg");
   }
 })();
 
-/* ---------- 尺寸工具 ---------- */
+/* ---------- 尺寸与点位 ---------- */
 function getSize(){ return { w: document.documentElement.clientWidth || window.innerWidth, h: document.documentElement.clientHeight || window.innerHeight }; }
 
-/* ---------- 点位计算与弹窗创建 ---------- */
 function getHeartPoints(num){
   const { w, h } = getSize(); const points = []; const ww = 110, wh = 60;
   const maxScaleW = Math.max(40, (w - ww) / 2); const maxScaleH = Math.max(40, (h - wh) / 2.125);
@@ -545,6 +529,7 @@ const emotionBox  = document.getElementById("emotionBox");
 const emotionSlider = document.getElementById("emotionSlider");
 const emotionFeedback = document.getElementById("emotionFeedback");
 const confirmEmotionBtn = document.getElementById("confirmEmotionBtn");
+const claimSurpriseBtn = document.getElementById("claimSurpriseBtn"); 
 const quizPanel   = document.getElementById("quizPanel");
 const quizQuestion = document.getElementById("quizQuestion");
 const quizOptions = document.getElementById("quizOptions");
@@ -570,16 +555,33 @@ const envelope        = document.getElementById("envelope");
 const stampBtn        = document.getElementById("stampBtn");
 const stampMark       = document.getElementById("stampMark");
 const backToLetterBtn = document.getElementById("backToLetterBtn");
+const grandModal      = document.getElementById("grandModal");
 
 pageTitle.textContent = CONFIG.pageTitle;
 
-/* ---------- 动画控制 ---------- */
-let runId = 0;          
-let typingToken = 0;
-let fullBoxesGlobal = [];
+if (!CONFIG.enableSkip) {
+  skipBtn.style.display = "none";
+}
 
-function showSkipBtn(){ skipBtn.classList.add("show"); }
+let runId = 0;          
+let fullBoxesGlobal = [];
+function showSkipBtn(){
+  if (!CONFIG.enableSkip) return;
+  skipBtn.classList.add("show");
+}
 function hideSkipBtn(){ skipBtn.classList.remove("show"); }
+
+/* ---------- 统一清场逻辑 ---------- */
+function resetStage(){
+  document.querySelectorAll(".win").forEach(el => el.remove());
+  document.querySelectorAll(".random-float-btn").forEach(el => el.remove());
+  fullBoxesGlobal = [];
+  confirmModal.classList.remove("appear");
+  forceModal.classList.remove("show");
+  surpriseModal.classList.remove("show");
+  grandModal.classList.remove("show");
+  btnNo.classList.remove("hideBtn");
+}
 
 /* ---------- 阶段0：爱心动画 ---------- */
 function startAnimation(){
@@ -605,70 +607,98 @@ function startAnimation(){
   }, finishTime);
 }
 
-/* ---------- 阶段0.5：满屏弹窗 ---------- */
+/* ---------- 阶段0.5：满屏弹窗 + 停留2.4s + 缓慢淡出 ---------- */
 function startFullScreen(){
   const rid = runId;
-  // 清理上一轮可能残留的弹窗
   document.querySelectorAll(".win.full-item").forEach(el => el.remove());
   fullBoxesGlobal = [];
 
   const total = 131; const interval = 4000 / total;
   const randomPoints = getRandomPoints(total);
   fullBoxesGlobal = createFullPopups(randomPoints);
+  
+  // 1. 弹幕乱序出现
   fullBoxesGlobal.forEach((box, idx) => {
     later(() => { if (rid !== runId) return; box.classList.add("show"); }, idx * interval);
   });
+  
   const allFullEnd = (total - 1) * interval;
+  
   later(() => {
     if (rid !== runId) return;
+    
+    // 2. 弹幕铺满后，停留 2.4 秒
     later(() => {
       if (rid !== runId) return;
-      fullBoxesGlobal.forEach(b => { b.style.transition = "opacity 1.2s ease"; b.style.opacity = "0"; });
+      
+      // 3. 背景弹幕开始缓慢淡出消失
+      fullBoxesGlobal.forEach(b => {
+        b.classList.add("zoom-out");
+      });
+
+      // 4. 同时！中心大弹窗突现
+      grandModal.classList.add("show");
+
+      // 5. 等 1.6 秒后，清理掉背景弹幕的DOM
       later(() => {
         if (rid !== runId) return;
         fullBoxesGlobal.forEach(b => b.remove());
         fullBoxesGlobal = [];
-        
-        emotionPanel.classList.add("show");
-        showSkipBtn();
-      }, 1200);
-    }, 2000);
+      }, 1600); 
+
+    }, 2400); // 👈 改成了 2400 毫秒 (2.4秒)
   }, allFullEnd);
 }
 
-/* ==================== 阶段1：你的开心程度逻辑 ==================== */
+// 点击大弹窗继续
+grandModal.onclick = () => {
+  const rid = runId;
+  grandModal.classList.remove("show");
+  
+  later(() => {
+    if (rid !== runId) return;
+    quizPanel.classList.add("show");
+    renderQuiz();
+    showSkipBtn();
+  }, 300);
+};
+
+/* ==================== 开心程度与领取按钮逻辑 ==================== */
 confirmEmotionBtn.onclick = () => {
   const val = parseInt(emotionSlider.value);
-  let feedback = "";
+  let feedbackText = "";
 
   if (val <= 25) {
-    feedback = "看来你现在心情很平静呢，是我新年祝福准备的不够好吗🥺";
+    feedbackText = "看来你对我准备的惊喜不太满意，再送你一个惊喜吧";
   } else if (val <= 50) {
-    feedback = "嘴角已经微微上扬了对吧？我就知道你会喜欢这份心意的。😁";
+    feedbackText = "看来我准备的惊喜还可以，那再送你一个惊喜，让你更加开心吧";
   } else if (val <= 75) {
-    feedback = "看来你真的挺开心的！能让你笑，就是我做这个网站最大的意义。😆";
+    feedbackText = "看来你真的很开心呀！那这份惊喜作为奖励送给你啦！";
   } else {
-    feedback = "看来你收到我这个惊喜超级开心呀！开心值已经爆表啦！🥰";
+    feedbackText = "你的开心值爆表啦！我也好开心能给你带来快乐！再送一份专属于你的惊喜给你！";
   }
 
-  emotionFeedback.innerText = feedback;
+  emotionFeedback.innerText = feedbackText;
   emotionFeedback.classList.add("show");
   emotionBox.classList.add("pulse");
 
-  const rid = runId;
-  later(() => {
-    if (rid !== runId) return;
-    emotionPanel.classList.remove("show");
-    emotionBox.classList.remove("pulse");
-    later(() => {
-      if (rid !== runId) return;
-      quizPanel.classList.add("show");
-      renderQuiz(); 
-    }, 400);
-  }, 3000);
+  confirmEmotionBtn.style.display = "none";
+  claimSurpriseBtn.style.display = "block";
+  claimSurpriseBtn.innerText = "领取惊喜";
 };
 
-/* ---------- 阶段2：默契问答逻辑 ---------- */
+claimSurpriseBtn.onclick = () => {
+  const rid = runId;
+  emotionPanel.classList.remove("show");
+  emotionBox.classList.remove("pulse");
+  
+  later(() => {
+    if (rid !== runId) return;
+    surpriseModal.classList.add("show");
+  }, 400);
+};
+
+/* ---------- 阶段1：默契问答 ---------- */
 let currentQuizIndex = 0;
 function renderQuiz() {
   if (currentQuizIndex >= CONFIG.quizData.length) {
@@ -707,7 +737,7 @@ function handleQuizAnswer(selected, btnEl) {
   }
 }
 
-/* ---------- 阶段3：逼真静态 404 ---------- */
+/* ---------- 阶段2：404 反转 ---------- */
 function startCrashSequence() {
   const code = document.getElementById("errorCode");
   const title = document.getElementById("errorTitle");
@@ -718,7 +748,7 @@ function startCrashSequence() {
   const rid = runId;
   later(() => {
     if (rid !== runId) return;
-    code.innerText = "520"; title.innerText = "LOVE FOUND"; msg.innerText = "逗你的啦，只是潘城想你想得死机了 🥰";
+    code.innerText = "520"; title.innerText = "LOVE FOUND"; msg.innerText = "逗你的啦，只是袁语汐想你想得死机了 🥰";
     code.classList.add("love"); title.classList.add("love"); msg.classList.add("love");
     later(() => {
       if (rid !== runId) return;
@@ -728,23 +758,17 @@ function startCrashSequence() {
         confirmModal.classList.add("appear"); 
       }, 400);
     }, 2400);
-  }, 4200);
+  }, 3500);
 }
 
-/* ---------- 打开信件 & 信封互动 ---------- */
+/* ---------- 打开信件 & 信封 ---------- */
 function openLetter(){
   runId++;                 
-  document.querySelectorAll(".win").forEach(el => el.remove());
-  document.querySelectorAll(".random-float-btn").forEach(el => el.remove());
-  fullBoxesGlobal = [];
-  confirmModal.classList.remove("appear");
-  forceModal.classList.remove("show");
+  resetStage();
   letterFooter.classList.remove("show");
   loadFullBtnWrap.style.display = "block";
-  surpriseModal.classList.remove("show");
   hideSkipBtn(); 
 
-  // 重置信封状态
   envelope.style.pointerEvents = "";
   envelope.classList.remove("open");
   document.getElementById("envFlap").classList.remove("open");
@@ -756,12 +780,9 @@ function openLetter(){
 }
 
 function showEnvelope() {
-  confirmModal.classList.remove("appear");
-  forceModal.classList.remove("show"); 
-  document.querySelectorAll(".random-float-btn").forEach(el => el.remove());
+  resetStage();
   hideSkipBtn(); 
 
-  // 重置信封
   envelope.style.pointerEvents = "";
   envelope.classList.remove("open");
   document.getElementById("envFlap").classList.remove("open");
@@ -770,7 +791,7 @@ function showEnvelope() {
   envelopeWrap.classList.add("show");
   envelope.onclick = () => {
     if (envelope.classList.contains("open")) return;
-    envelope.style.pointerEvents = "none";   // 防连点
+    envelope.style.pointerEvents = "none";
     envelope.classList.add("open");
     document.getElementById("envFlap").classList.add("open");
     later(() => {
@@ -780,15 +801,17 @@ function showEnvelope() {
   };
 }
 
-/* ---------- 打字机逻辑 ---------- */
+/* ---------- 打字机 ---------- */
 let typeTimer = null;
 let isTyping = false;
 function typeWriter(text){
-  clearTimeout(typeTimer); isTyping = true; let i = 0;
+  clearTimeout(typeTimer); isTyping = true;
+  const chars = Array.from(text);
+  let i = 0;
   typeContent.innerHTML = `<span class="cursor"></span>`; letterGlass.scrollTop = 0;
   function type() {
-    if (i < text.length) {
-      typeContent.innerHTML = text.substring(0, i + 1) + `<span class="cursor"></span>`;
+    if (i < chars.length) {
+      typeContent.innerHTML = chars.slice(0, i + 1).join("") + `<span class="cursor"></span>`;
       letterGlass.scrollTop = letterGlass.scrollHeight; i++;
       typeTimer = setTimeout(type, CONFIG.typeSpeed);
     } else { finishTyping(); }
@@ -803,12 +826,29 @@ function finishTyping() {
 
 /* ---------- 各种点击事件 ---------- */
 loadFullBtn.onclick = (e) => { e.stopPropagation(); if (isTyping) finishTyping(); };
-surpriseBtn.onclick = (e) => { e.stopPropagation(); letterBoxWrap.classList.remove("showLetter"); later(() => { surpriseModal.classList.add("show"); }, 600); };
+
+surpriseBtn.onclick = (e) => { 
+  e.stopPropagation(); 
+  letterBoxWrap.classList.remove("showLetter"); 
+  later(() => { 
+    emotionSlider.value = 0;
+    emotionFeedback.classList.remove("show");
+    emotionBox.classList.remove("pulse");
+    
+    confirmEmotionBtn.style.display = "block";
+    claimSurpriseBtn.style.display = "none";
+    
+    emotionPanel.classList.add("show"); 
+  }, 600); 
+};
 
 backToLetterBtn.onclick = (e) => {
   e.stopPropagation();
-  surpriseModal.classList.remove("show");
+  resetStage();
   letterBoxWrap.classList.add("showLetter");
+  if (typeContent.textContent !== CONFIG.letter) {
+    finishTyping();
+  }
 };
 
 stampBtn.onclick = (e) => { e.stopPropagation(); stampBtn.classList.add("hide"); stampMark.classList.add("show"); };
@@ -857,19 +897,16 @@ skipBtn.onclick = () => {
   clearTimeout(typeTimer);
   isTyping = false;
 
-  document.querySelectorAll(".win").forEach(el => el.remove());
-  document.querySelectorAll(".random-float-btn").forEach(el => el.remove());
-  fullBoxesGlobal = [];
-
+  resetStage();
   document.querySelectorAll('.overlay-panel').forEach(el => el.classList.remove('show'));
-  confirmModal.classList.remove("appear");
-  forceModal.classList.remove("show");
   letterBoxWrap.classList.remove("showLetter");
-  surpriseModal.classList.remove("show");
-  document.body.style.background = "";
 
   skipModal.classList.add("show");
 };
+
+document.querySelectorAll('.skip-menu-btn').forEach(btnEl => {
+  btnEl.addEventListener('click', () => jumpTo(btnEl.dataset.jump));
+});
 
 function jumpTo(step) {
   clearPending();
@@ -881,6 +918,7 @@ function jumpTo(step) {
     emotionFeedback.classList.remove("show");
     emotionBox.classList.remove("pulse");
     confirmEmotionBtn.style.display = "block";
+    claimSurpriseBtn.style.display = "none";
     emotionPanel.classList.add("show");
     showSkipBtn();
   } else if (step === 'quiz') {
@@ -904,14 +942,10 @@ replayBtn.onclick = (e) => {
   runId++;
   clearPending();
   clearTimeout(typeTimer);
-  document.querySelectorAll(".win").forEach(el => el.remove());
-  document.querySelectorAll(".random-float-btn").forEach(el => el.remove());
-  fullBoxesGlobal = [];
-  confirmModal.classList.remove("appear"); forceModal.classList.remove("show");
+  resetStage();
   letterBoxWrap.classList.remove("showLetter"); letterFooter.classList.remove("show");
-  surpriseModal.classList.remove("show");
   loadFullBtnWrap.style.display = "block";
-  btnNo.classList.remove("hideBtn"); typeContent.innerHTML = "";
+  typeContent.innerHTML = "";
   isTyping = false; hideSkipBtn();
   stampBtn.classList.remove("hide"); stampMark.classList.remove("show");
   
@@ -919,6 +953,8 @@ replayBtn.onclick = (e) => {
   emotionSlider.value = 0;
   emotionFeedback.classList.remove("show");
   emotionBox.classList.remove("pulse");
+  confirmEmotionBtn.style.display = "block";
+  claimSurpriseBtn.style.display = "none";
   
   const rid = runId;
   later(() => {
@@ -929,13 +965,13 @@ replayBtn.onclick = (e) => {
 
 let hintTimer = null;
 function showHint(msg){
-  inputHint.textContent = msg; inputHint.classList.add("show"); input.classList.add("shake");
+  inputHint.textContent = msg; inputHint.classList.add("show"); inputHint.classList.add("shake");
   clearTimeout(hintTimer);
   hintTimer = setTimeout(() => { input.classList.remove("shake"); inputHint.classList.remove("show"); }, 2200);
 }
 
 btn.onclick = () => {
-  if (panel.classList.contains("hide")) return;  // 防重复点击
+  if (panel.classList.contains("hide")) return;  
   const value = input.value.trim();
   if (value === CONFIG.loverName){
     inputHint.classList.remove("show"); panel.classList.add("hide");
